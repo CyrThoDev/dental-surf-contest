@@ -17,9 +17,9 @@ export default function RegistrationForm() {
       prenom: "",
       telephone: "",
       email: "",
-      clubMember: "non",
-      competitionLicense: "non",
-      niveau: "debutant",
+      clubMember: false,
+competitionLicense: false,
+niveau:  "debutant", 
       agreeDocs: false,
       participateSurfLessons: false,
       participateParty: false,
@@ -45,30 +45,46 @@ export default function RegistrationForm() {
 
   const participateParty = watch("participateParty");
   const participateOnlyParty = watch("participateOnlyParty");
+  const clubMember = watch("clubMember");
 
   // UX: si tu coches l’un, on décoche l’autre (cohérent avec la règle métier)
-  const toggleParty = (checked: boolean) => {
-    setValue("participateParty", checked, { shouldValidate: true });
-    if (checked) {
-      setValue("participateOnlyParty", false, { shouldValidate: true });
-      setValue("accompanyCountOnlyParty", undefined, { shouldValidate: true });
-      // met un 0 par défaut si tu veux un champ déjà rempli
-      if (watch("accompanyCountParty") === undefined) setValue("accompanyCountParty", 0);
-    } else {
-      setValue("accompanyCountParty", undefined);
-    }
-  };
+ const toggleParty = (checked: boolean) => {
+  setValue("participateParty", checked, { shouldValidate: true });
 
-  const toggleOnlyParty = (checked: boolean) => {
-    setValue("participateOnlyParty", checked, { shouldValidate: true });
-    if (checked) {
-      setValue("participateParty", false, { shouldValidate: true });
-      setValue("accompanyCountParty", undefined, { shouldValidate: true });
-      if (watch("accompanyCountOnlyParty") === undefined) setValue("accompanyCountOnlyParty", 0);
-    } else {
-      setValue("accompanyCountOnlyParty", undefined);
+  if (checked) {
+    // ✅ nouveau : si soirée cochée => pas de cours de surf
+    setValue("participateSurfLessons", false, { shouldValidate: true });
+
+    // logique existante
+    setValue("participateOnlyParty", false, { shouldValidate: true });
+    setValue("accompanyCountOnlyParty", undefined, { shouldValidate: true });
+
+    if (watch("accompanyCountParty") === undefined) {
+      setValue("accompanyCountParty", 0);
     }
-  };
+  } else {
+    setValue("accompanyCountParty", undefined);
+  }
+};
+
+ const toggleOnlyParty = (checked: boolean) => {
+  setValue("participateOnlyParty", checked, { shouldValidate: true });
+
+  if (checked) {
+    // ✅ nouveau : si soirée cochée => pas de cours de surf
+    setValue("participateSurfLessons", false, { shouldValidate: true });
+
+    // logique existante
+    setValue("participateParty", false, { shouldValidate: true });
+    setValue("accompanyCountParty", undefined, { shouldValidate: true });
+
+    if (watch("accompanyCountOnlyParty") === undefined) {
+      setValue("accompanyCountOnlyParty", 0);
+    }
+  } else {
+    setValue("accompanyCountOnlyParty", undefined);
+  }
+};
 
   const onSubmit = async (data: RegistrationInput) => {
     const res = await fetch("/api/register", {
@@ -84,33 +100,39 @@ export default function RegistrationForm() {
   };
 
   return (
-    <section className="bg-black text-white">
-      <div className="mx-auto max-w-3xl px-6 py-16">
-        <h2 className="text-center text-4xl font-extrabold tracking-wide">PRÉ-INSCRIPTIONS</h2>
+    <section className="bg-red text-white ">
+      <div className="mx-auto max-w-7xl px-6 py-16">
+        <h2 className="text-center text-5xl font-agdasima ">PRÉ-INSCRIPTIONS</h2>
 
-        <p className="mt-6 text-center text-sm leading-relaxed text-white/80">
-          Rdv au SANTOCHA SURF CLUB à 7H30 - 3 rue de la savane, 40130 - Capbreton
-          <br />
-          Remise des prix, apéro tapas et soirée Rock&apos;n roll au BOARDRIDERS QUIKSILVER
-          <br />
-          36 Bd du Dr Junqua - 40130 Capbreton.
+      <div className="text-center text-2xl leading-none font-agdasima">
+        <p className="mt-2 text-center  text-white">
+          La vague revient pour sa 3ᵉ édition ! 
+          </p>
+          <p>Préparez-vous à vivre des sensations fortes et à vibrer au rythme des vagues ! 
         </p>
+        <p>La 3ᵉ édition du Dental Surf Contest arrive bientôt et promet encore plus d’adrénaline, de fun et de performances spectaculaires.</p> 
+        <p>Que vous soyez surfeur confirmé ou simple passionné, venez encourager les meilleurs riders et profiter d’une ambiance unique entre passion et compétition. 
+        Des surprises, des animations et des moments inoubliables vous attendent ! </p>
+        
+        <p>Inscrivez-vous dès maintenant et ne manquez pas le rendez-vous incontournable de la saison !</p>
+        
+        </div>
 
-        <p className="mt-4 text-center text-sm font-semibold text-orange-300">
-          Places compétiteurs/compétitrices limitées à 40 surfeurs! <br />
+        <p className="mt-2 text-center text-xl font-semibold font-barlow-condensed ">
+          Places compétiteurs/compétitrices limitées à 40 surfeurs! 
           Pas de limite pour les cours de surf
         </p>
 
-        <form onSubmit={handleSubmit(onSubmit)} className="mt-12">
-          <h3 className="text-lg font-extrabold tracking-wide text-yellow-400">INSCRIPTIONS</h3>
+        <form onSubmit={handleSubmit(onSubmit)} className="max-w-xl mx-auto mt-12">
+          <h3 className="text-3xl font-bold  font-barlow-condensed text-yellow">INSCRIPTIONS</h3>
 
           {/* Inputs type "barres" */}
-          <div className="mt-4 space-y-4">
+          <div className="mt-4 space-y-4 font-barlow">
             <div>
               <input
                 {...register("nom")}
                 placeholder="NOM"
-                className="w-full border border-white/30 bg-white px-4 py-3 text-sm font-bold text-black outline-none"
+                className="w-full border border-white/30 bg-white px-4 py-3 text-sm font-bold text-black outline-none placeholder:text-black"
               />
               <FieldError msg={errors.nom?.message} />
             </div>
@@ -119,7 +141,7 @@ export default function RegistrationForm() {
               <input
                 {...register("prenom")}
                 placeholder="PRENOM"
-                className="w-full border border-white/30 bg-white px-4 py-3 text-sm font-bold text-black outline-none"
+                className="w-full border border-white/30 bg-white px-4 py-3 text-sm font-bold text-black outline-none placeholder:text-black"
               />
               <FieldError msg={errors.prenom?.message} />
             </div>
@@ -128,7 +150,7 @@ export default function RegistrationForm() {
               <input
                 {...register("telephone")}
                 placeholder="TELEPHONE"
-                className="w-full border border-white/30 bg-white px-4 py-3 text-sm font-bold text-black outline-none"
+                className="w-full border border-white/30 bg-white px-4 py-3 text-sm font-bold text-black outline-none placeholder:text-black"
               />
               <FieldError msg={errors.telephone?.message} />
             </div>
@@ -137,37 +159,31 @@ export default function RegistrationForm() {
               <input
                 {...register("email")}
                 placeholder="EMAIL"
-                className="w-full border border-white/30 bg-white px-4 py-3 text-sm font-bold text-black outline-none"
+                className="w-full border border-white/30 bg-white px-4 py-3 text-sm font-bold text-black outline-none placeholder:text-black"
               />
               <FieldError msg={errors.email?.message} />
             </div>
           </div>
 
           {/* Radios oui/non */}
-          <div className="mt-6 space-y-4 text-sm">
-            <div className="flex flex-wrap items-center gap-3">
-              <span className="text-white/90">Déjà adhérent d’un club</span>
-              <label className="inline-flex items-center gap-2">
-                <input type="radio" value="oui" {...register("clubMember")} />
-                oui
-              </label>
-              <label className="inline-flex items-center gap-2">
-                <input type="radio" value="non" {...register("clubMember")} />
-                non
-              </label>
-            </div>
+          <div className="mt-6 space-y-4 text-sm font-barlow">
+        <div className="flex flex-wrap items-center gap-3">
+  <label className="inline-flex items-center gap-2">
+    <input type="checkbox" {...register("clubMember")} />
+    <span className="text-white/90">Déjà adhérent d’un club</span>
+  </label>
+</div>
 
             <div className="flex flex-wrap items-center gap-3">
-              <span className="text-white/90">Si oui licence compétition</span>
-              <label className="inline-flex items-center gap-2">
-                <input type="radio" value="oui" {...register("competitionLicense")} />
-                oui
-              </label>
-              <label className="inline-flex items-center gap-2">
-                <input type="radio" value="non" {...register("competitionLicense")} />
-                non
-              </label>
-            </div>
+  <label className="inline-flex items-center gap-2">
+    <input
+      type="checkbox"
+      {...register("competitionLicense")}
+      disabled={!clubMember}
+    />
+    <span className="text-white/90">Licence compétition (si oui)</span>
+  </label>
+</div>
 
             <div className="flex flex-wrap items-center gap-3">
               <span className="text-white/90">Niveau</span>
@@ -273,23 +289,23 @@ export default function RegistrationForm() {
           <div className="mt-12 flex justify-center">
             <button
               disabled={isSubmitting}
-              className="w-[260px] bg-teal-400 px-8 py-3 text-sm font-extrabold text-white disabled:opacity-60"
+              className="font-barlow-condensed w-[300px] bg-blue px-8 py-3 text-2xl font-extrabold text-white disabled:opacity-60"
             >
               {isSubmitting ? "ENVOI..." : "VALIDER"}
             </button>
           </div>
 
           {isSubmitSuccessful && (
-            <p className="mt-6 text-center text-sm text-green-300">
+            <p className="mt-6 text-center  text-green-300">
               Merci ! Ta pré-inscription a bien été envoyée.
             </p>
           )}
 
-          <div className="mt-10 text-center">
+          <div className="mt-5 mb-16 text-center">
             <p className="text-xl font-extrabold">MERCI A NOS PARTENAIRES</p>
             <button
               type="button"
-              className="mt-4 bg-yellow-400 px-10 py-2 text-sm font-extrabold text-black"
+              className="font-barlow-condensed mt-4 bg-dark-yellow px-10 py-2 text-xl font-extrabold text-white"
             >
               CONTACT
             </button>
