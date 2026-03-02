@@ -7,7 +7,7 @@ import { registrationSchema, type RegistrationInput } from "@/lib/validation";
 
 function FieldError({ msg }: { msg?: string }) {
   if (!msg) return null;
-  return <p className="mt-1 text-xs text-red-400">{msg}</p>;
+  return <p className="mt-1  text-red-400">{msg}</p>;
 }
 
 export default function RegistrationForm() {
@@ -132,7 +132,7 @@ niveau:  "debutant",
               <input
                 {...register("nom")}
                 placeholder="NOM"
-                className="w-full border border-white/30 bg-white px-4 py-3 text-sm font-bold text-black outline-none placeholder:text-black"
+                className="w-full border border-white/30 bg-white px-4 py-3  font-bold text-black outline-none placeholder:text-black"
               />
               <FieldError msg={errors.nom?.message} />
             </div>
@@ -141,7 +141,7 @@ niveau:  "debutant",
               <input
                 {...register("prenom")}
                 placeholder="PRENOM"
-                className="w-full border border-white/30 bg-white px-4 py-3 text-sm font-bold text-black outline-none placeholder:text-black"
+                className="w-full border border-white/30 bg-white px-4 py-3  font-bold text-black outline-none placeholder:text-black"
               />
               <FieldError msg={errors.prenom?.message} />
             </div>
@@ -150,7 +150,7 @@ niveau:  "debutant",
               <input
                 {...register("telephone")}
                 placeholder="TELEPHONE"
-                className="w-full border border-white/30 bg-white px-4 py-3 text-sm font-bold text-black outline-none placeholder:text-black"
+                className="w-full border border-white/30 bg-white px-4 py-3  font-bold text-black outline-none placeholder:text-black"
               />
               <FieldError msg={errors.telephone?.message} />
             </div>
@@ -159,14 +159,14 @@ niveau:  "debutant",
               <input
                 {...register("email")}
                 placeholder="EMAIL"
-                className="w-full border border-white/30 bg-white px-4 py-3 text-sm font-bold text-black outline-none placeholder:text-black"
+                className="w-full border border-white/30 bg-white px-4 py-3  font-bold text-black outline-none placeholder:text-black"
               />
               <FieldError msg={errors.email?.message} />
             </div>
           </div>
 
           {/* Radios oui/non */}
-          <div className="mt-6 space-y-4 text-sm font-barlow">
+          <div className="mt-6 space-y-4  font-barlow">
         <div className="flex flex-wrap items-center gap-3">
   <label className="inline-flex items-center gap-2">
     <input type="checkbox" {...register("clubMember")} />
@@ -204,7 +204,7 @@ niveau:  "debutant",
           </div>
 
           {/* Texte + checkboxes */}
-          <div className="mt-6 space-y-4 text-sm text-white/90">
+          <div className="mt-6 space-y-4  text-white/90">
             <p className="font-semibold">Fournir une copie de pièce d’identité et un certificat médical</p>
 
             <label className="flex items-start gap-3">
@@ -242,7 +242,7 @@ niveau:  "debutant",
                     disabled={!participateParty}
                     {...register("accompanyCountParty", { valueAsNumber: true })}
                     placeholder="NOMBRE D’ACCOMPAGNANTS"
-                    className="w-full border border-white/30 bg-white px-4 py-3 text-xs font-bold text-black outline-none disabled:opacity-50"
+                    className="w-full border border-white/30 bg-white px-4 py-3  font-bold text-black outline-none disabled:opacity-50"
                   />
                   <FieldError msg={errors.accompanyCountParty?.message as string | undefined} />
                 </div>
@@ -267,7 +267,7 @@ niveau:  "debutant",
                     disabled={!participateOnlyParty}
                     {...register("accompanyCountOnlyParty", { valueAsNumber: true })}
                     placeholder="NOMBRE D’ACCOMPAGNANTS"
-                    className="w-full border border-white/30 bg-white px-4 py-3 text-xs font-bold text-black outline-none disabled:opacity-50"
+                    className="w-full border border-white/30 bg-white px-4 py-3  font-bold text-black outline-none disabled:opacity-50"
                   />
                   <FieldError msg={errors.accompanyCountOnlyParty?.message as string | undefined} />
                 </div>
