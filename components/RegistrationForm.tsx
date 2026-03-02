@@ -152,7 +152,7 @@ export default function RegistrationForm() {
           pour les cours de surf
         </p>
 
-        <form onSubmit={handleSubmit(onSubmit)} className="max-w-xl mx-auto mt-12">
+        <form onSubmit={handleSubmit(onSubmit)} className="max-w-2xl mx-auto mt-12">
           <h3 className="text-3xl font-bold font-barlow-condensed text-yellow">
             INSCRIPTIONS
           </h3>
