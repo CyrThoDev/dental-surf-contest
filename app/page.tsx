@@ -1,7 +1,13 @@
-import Image from "next/image";
+import DentalSurfHero from "@/components/DentalSurfHero"
+import Hero from "@/components/Hero"
+import RegistrationForm from "@/components/RegistrationForm"
 
 export default function Home() {
   return (
-    <div>Dental surf Contest</div>
-  );
+    <main className="flex flex-col gap-0">
+      <Hero />
+      {/* <DentalSurfHero /> */}
+      <RegistrationForm />
+    </main>
+  )
 }
