@@ -119,12 +119,12 @@ export default function RegistrationForm() {
   return (
     <section className="bg-red text-white ">
       <div className="mx-auto max-w-7xl px-6 py-16">
-        <h2 className="text-center text-5xl font-agdasima ">PRÉ-INSCRIPTIONS</h2>
+        <h2 className="text-center text-5xl font-agdasima ">INSCRIPTIONS</h2>
 
         <div className="text-center text-2xl leading-none font-agdasima">
           <p className="mt-2 text-center text-white">
             La vague revient pour sa 3ᵉ édition ! Rendez-vous le 4 septembre sur la
-            plage de CAPBRETON AU CLUB SURF OLDIES
+            plage de CAPBRETON AU CLUB SURF OLDIES - Promenade du front de mer Plage du Prévent
           </p>
           <p>
             Préparez-vous à vivre des sensations fortes et à vibrer au rythme des

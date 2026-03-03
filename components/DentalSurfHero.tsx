@@ -15,24 +15,24 @@ export default function DentalSurfHero() {
       />
 
       {/* OVERLAY TEXTE */}
-      <div className="absolute inset-0 flex flex-col items-center pt-16 md:pt-24 lg:pt-28 text-center">
-        
-        {/* Phrase fine */}
-        <p className="text-white text-sm md:text-lg tracking-wide font-light">
-          Vendredi 4 septembre la 3ème édition
-        </p>
+     <div className="absolute inset-0 flex flex-col items-center justify-start pt-4 sm:pt-10 md:pt-14 text-center">
+  
+  {/* Phrase fine */}
+  <p className="text-white text-xl sm:text-3xl md:text-5xl lg:text-7xl font-agdasima tracking-wide leading-none">
+    Vendredi 4 septembre la 3ème édition
+  </p>
 
-        {/* Titre principal */}
-        <h1 className="mt-4 text-4xl md:text-6xl lg:text-7xl font-extrabold uppercase tracking-wide text-[#9EE7E5]">
-          Dental Surf Contest
-        </h1>
+  {/* Titre principal */}
+  <h1 className="font-agdasima text-[2.5rem] md:text-6xl lg:text-9xl font-bold uppercase tracking-wide text-[#A9F5FC] leading-none">
+    Dental Surf Contest
+  </h1>
 
-        {/* Année */}
-        <div className="mt-2 text-5xl md:text-7xl lg:text-8xl font-extrabold text-[#F5D28C]">
-          2026
-        </div>
+  {/* Année */}
+  <div className="font-agdasima text-7xl md:text-7xl lg:text-8xl font-bold text-[#FFF4C4] leading-none -mt-2 md:-mt-4">
+    2026
+  </div>
 
-      </div>
+</div>
     </section>
   );
 }
