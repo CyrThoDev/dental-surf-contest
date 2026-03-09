@@ -471,7 +471,7 @@ export default function RegistrationForm() {
           </div>
 
           {isSubmitSuccessful && !submitError && (
-            <>
+            <div className="flex flex-col items-center justify-center">
             <p className="mt-6 text-center text-white">
               Merci ! Votre inscription a bien été envoyée. 
             </p>
@@ -479,7 +479,7 @@ export default function RegistrationForm() {
 Un email de confirmation vient de vous être envoyé.
 Si vous ne le recevez pas dans les prochaines minutes,
 pensez à vérifier votre dossier <strong>spam / courrier indésirable</strong>.
-</p></>
+</p></div>
           )}
 
           {submitError && (

@@ -46,25 +46,25 @@ function rowParticipant(label: string, value: string | number) {
     <tr>
       <td style="
         padding:12px 16px;
-        border-bottom:1px solid #171717;
+        border-bottom:1px solid rgba(255,255,255,0.18);
         color:#171717;
         font-size:14px;
         vertical-align:top;
         width:42%;
         font-family:Arial, Helvetica, sans-serif;
-        background:#fff9e8;
+        background:#ffffff;
       ">
         ${label}
       </td>
       <td style="
         padding:12px 16px;
-        border-bottom:1px solid #171717;
+        border-bottom:1px solid rgba(255,255,255,0.18);
         color:#171717;
         font-size:14px;
         font-weight:700;
         vertical-align:top;
         font-family:Arial, Helvetica, sans-serif;
-        background:#fff9e8;
+        background:#ffffff;
       ">
         ${value}
       </td>
@@ -133,22 +133,22 @@ function buildParticipantHtml(data: {
               
               <tr>
                 <td style="padding:32px 32px 16px 32px;background:#ffffff;">
-                  <div style="font-size:12px;letter-spacing:0.12em;text-transform:uppercase;color:#6b7280;font-weight:700;margin-bottom:10px;">
+                  <div style="font-size:12px;letter-spacing:0.12em;text-transform:uppercase;color:#F15759;font-weight:700;margin-bottom:10px;">
                     Dental Surf Contest
                   </div>
                   <h1 style="margin:0;font-size:32px;line-height:1.1;font-weight:700;color:#171717;">
-                    Confirmation de votre pré-inscription
+                    Confirmation de votre inscription
                   </h1>
                   <p style="margin:16px 0 0 0;font-size:16px;line-height:1.6;color:#4b5563;">
                     Bonjour <strong>${data.prenom} ${data.nom}</strong>,<br />
-                    Nous avons bien reçu votre pré-inscription au <strong>Dental Surf Contest</strong>.
+                    Nous avons bien reçu votre inscription au <strong>Dental Surf Contest</strong>.
                   </p>
                 </td>
               </tr>
 
               <tr>
                 <td style="padding:0 32px 8px 32px;">
-                  <div style="background:#FFF4C4;border-radius:16px;padding:20px 22px;">
+                  <div style="background:#F15759;border-radius:16px;padding:20px 22px;">
                     <div style="font-size:13px;color:#4b5563;font-weight:600;letter-spacing:0.06em;text-transform:uppercase;margin-bottom:8px;">
                       Événement
                     </div>
@@ -256,19 +256,19 @@ function buildAdminHtml(data: {
       <meta name="viewport" content="width=device-width, initial-scale=1.0" />
       <title>Nouvelle inscription au Dental Surf Contest</title>
     </head>
-    <body style="margin:0;padding:0;background:#F15759;font-family:Arial, Helvetica, sans-serif;color:#171717;">
-      <table role="presentation" width="100%" cellspacing="0" cellpadding="0" style="background:#F15759;margin:0;padding:32px 16px;">
+    <body style="margin:0;padding:0;background:#fff9e8;font-family:Arial, Helvetica, sans-serif;color:#171717;">
+      <table role="presentation" width="100%" cellspacing="0" cellpadding="0" style="background:#fff9e8;margin:0;padding:32px 16px;">
         <tr>
           <td align="center">
             <table role="presentation" width="100%" cellspacing="0" cellpadding="0" style="max-width:640px;background:#ffffff;border:1px solid #e5e7eb;border-radius:20px;overflow:hidden;">
               
               <tr>
                 <td style="padding:32px 32px 16px 32px;background:#ffffff;">
-                  <div style="font-size:12px;letter-spacing:0.12em;text-transform:uppercase;color:#6b7280;font-weight:700;margin-bottom:10px;">
+                  <div style="font-size:12px;letter-spacing:0.12em;text-transform:uppercase;color:#F15759;font-weight:700;margin-bottom:10px;">
                     Dental Surf Contest
                   </div>
                   <h1 style="margin:0;font-size:30px;line-height:1.1;font-weight:700;color:#171717;">
-                    Nouvelle pré-inscription
+                    Nouvelle inscription
                   </h1>
                   <p style="margin:16px 0 0 0;font-size:16px;line-height:1.6;color:#4b5563;">
                     Une nouvelle demande vient d’être enregistrée.
@@ -278,11 +278,11 @@ function buildAdminHtml(data: {
 
               <tr>
                 <td style="padding:0 32px 8px 32px;">
-                  <div style="background:#FFF4C4;border-radius:16px;padding:18px 22px;">
+                  <div style="background:#F15759;border-radius:16px;padding:18px 22px;">
                     <div style="font-size:13px;color:#4b5563;font-weight:600;letter-spacing:0.06em;text-transform:uppercase;margin-bottom:8px;">
                       Participant
                     </div>
-                    <div style="font-size:24px;line-height:1.2;font-weight:700;color:#171717;">
+                    <div style="font-size:24px;line-height:1.2;font-weight:700;color:#ffffff;">
                       ${data.prenom} ${data.nom}
                     </div>
                     <div style="font-size:15px;line-height:1.6;color:#4b5563;margin-top:8px;">
@@ -296,7 +296,7 @@ function buildAdminHtml(data: {
               <tr>
                 <td style="padding:24px 32px 8px 32px;">
                   <h2 style="margin:0 0 12px 0;font-size:18px;font-weight:700;color:#171717;">
-                    Détails de la réservation
+                    Détails de l’inscription
                   </h2>
 
                   <table role="presentation" width="100%" cellspacing="0" cellpadding="0" style="border-collapse:collapse;border-radius:14px;overflow:hidden;">
