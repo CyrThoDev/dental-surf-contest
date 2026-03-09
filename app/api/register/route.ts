@@ -125,8 +125,8 @@ function buildParticipantHtml(data: {
       <meta name="viewport" content="width=device-width, initial-scale=1.0" />
       <title>Confirmation d'inscription au Dental Surf Contest</title>
     </head>
-    <body style="margin:0;padding:0;background:#F15759;font-family:Arial, Helvetica, sans-serif;color:#171717;">
-      <table role="presentation" width="100%" cellspacing="0" cellpadding="0" style="background:#F15759;margin:0;padding:32px 16px;">
+    <body style="margin:0;padding:0;background:#fff9e8;font-family:Arial, Helvetica, sans-serif;color:#171717;">
+      <table role="presentation" width="100%" cellspacing="0" cellpadding="0" style="background:#fff9e8;margin:0;padding:32px 16px;">
         <tr>
           <td align="center">
             <table role="presentation" width="100%" cellspacing="0" cellpadding="0" style="max-width:640px;background:#ffffff;border:1px solid #e5e7eb;border-radius:20px;overflow:hidden;">
@@ -136,7 +136,7 @@ function buildParticipantHtml(data: {
                   <div style="font-size:12px;letter-spacing:0.12em;text-transform:uppercase;color:#6b7280;font-weight:700;margin-bottom:10px;">
                     Dental Surf Contest
                   </div>
-                  <h1 style="margin:0;font-size:32px;line-height:1.1;font-weight:700;color:#111827;">
+                  <h1 style="margin:0;font-size:32px;line-height:1.1;font-weight:700;color:#171717;">
                     Confirmation de votre pré-inscription
                   </h1>
                   <p style="margin:16px 0 0 0;font-size:16px;line-height:1.6;color:#4b5563;">
@@ -165,7 +165,7 @@ function buildParticipantHtml(data: {
 
               <tr>
                 <td style="padding:24px 32px 8px 32px;">
-                  <h2 style="margin:0 0 12px 0;font-size:18px;font-weight:700;color:#111827;">
+                  <h2 style="margin:0 0 12px 0;font-size:18px;font-weight:700;color:#171717;">
                     Récapitulatif de votre inscription
                   </h2>
 
@@ -202,7 +202,7 @@ function buildParticipantHtml(data: {
                 <td style="padding:24px 32px 0 32px;" align="center">
                   <a
                     href="https://dentalsurfcontest.com"
-                    style="display:inline-block;background:#111827;color:#ffffff;text-decoration:none;font-size:15px;font-weight:600;padding:14px 22px;border-radius:999px;"
+                    style="display:inline-block;background:#171717;color:#ffffff;text-decoration:none;font-size:15px;font-weight:600;padding:14px 22px;border-radius:999px;"
                   >
                     Voir le site
                   </a>
