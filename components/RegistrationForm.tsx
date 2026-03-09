@@ -471,16 +471,22 @@ export default function RegistrationForm() {
           </div>
 
           {isSubmitSuccessful && !submitError && (
+            <>
             <p className="mt-6 text-center text-white">
-              Merci ! Ta pré-inscription a bien été envoyée.
+              Merci ! Votre inscription a bien été envoyée. 
             </p>
+            <p className="margin-top:12px;font-size:14px;color:#555;">
+Un email de confirmation vient de vous être envoyé.
+Si vous ne le recevez pas dans les prochaines minutes,
+pensez à vérifier votre dossier <strong>spam / courrier indésirable</strong>.
+</p></>
           )}
 
           {submitError && (
             <p className="mt-6 text-center text-black">{submitError}</p>
           )}
         </form>
-      </div>
+      </div>z
     </section>
   );
 }
