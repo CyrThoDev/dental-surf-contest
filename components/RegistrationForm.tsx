@@ -471,13 +471,13 @@ export default function RegistrationForm() {
           </div>
 
           {isSubmitSuccessful && !submitError && (
-            <p className="mt-6 text-center text-green-300">
+            <p className="mt-6 text-center text-white">
               Merci ! Ta pré-inscription a bien été envoyée.
             </p>
           )}
 
           {submitError && (
-            <p className="mt-6 text-center text-red-300">{submitError}</p>
+            <p className="mt-6 text-center text-black">{submitError}</p>
           )}
         </form>
       </div>
