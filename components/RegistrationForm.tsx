@@ -1,16 +1,18 @@
 "use client";
 
-import { useMemo, useEffect } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { registrationSchema, type RegistrationInput } from "@/lib/validation";
 
 function FieldError({ msg }: { msg?: string }) {
   if (!msg) return null;
-  return <p className="mt-1 text-red-400">{msg}</p>;
+  return <p className="mt-1 text-black">{msg}</p>;
 }
 
 export default function RegistrationForm() {
+  const [submitError, setSubmitError] = useState<string | null>(null);
+
   const defaultValues = useMemo<RegistrationInput>(
     () => ({
       nom: "",
@@ -47,33 +49,26 @@ export default function RegistrationForm() {
   const participateOnlyParty = watch("participateOnlyParty");
   const clubMember = watch("clubMember");
 
-  // ✅ classe unique pour uniformiser toutes les checkboxes
   const CB = "h-6 w-6 accent-white shrink-0";
 
-  // ✅ si "non" au club => licence compétition doit être false
   useEffect(() => {
     if (!clubMember) {
       setValue("competitionLicense", false, { shouldValidate: true });
     }
   }, [clubMember, setValue]);
 
-  // UX: si tu coches l’un, on décoche l’autre (cohérent avec la règle métier)
   const toggleParty = (checked: boolean) => {
     setValue("participateParty", checked, { shouldValidate: true });
 
     if (checked) {
-      // si soirée cochée => pas de cours de surf
-      setValue("participateSurfLessons", false, { shouldValidate: true });
-
-      // logique existante
       setValue("participateOnlyParty", false, { shouldValidate: true });
       setValue("accompanyCountOnlyParty", undefined, { shouldValidate: true });
 
       if (watch("accompanyCountParty") === undefined) {
-        setValue("accompanyCountParty", 0);
+        setValue("accompanyCountParty", 0, { shouldValidate: true });
       }
     } else {
-      setValue("accompanyCountParty", undefined);
+      setValue("accompanyCountParty", undefined, { shouldValidate: true });
     }
   };
 
@@ -81,83 +76,89 @@ export default function RegistrationForm() {
     setValue("participateOnlyParty", checked, { shouldValidate: true });
 
     if (checked) {
-      // si soirée cochée => pas de cours de surf
       setValue("participateSurfLessons", false, { shouldValidate: true });
-
-      // logique existante
       setValue("participateParty", false, { shouldValidate: true });
       setValue("accompanyCountParty", undefined, { shouldValidate: true });
 
       if (watch("accompanyCountOnlyParty") === undefined) {
-        setValue("accompanyCountOnlyParty", 0);
+        setValue("accompanyCountOnlyParty", 0, { shouldValidate: true });
       }
     } else {
-      setValue("accompanyCountOnlyParty", undefined);
+      setValue("accompanyCountOnlyParty", undefined, { shouldValidate: true });
     }
   };
 
-
-  useEffect(() => {
-  if (participateOnlyParty) {
-    setValue("participateSurfLessons", false, { shouldValidate: true });
-  }
-}, [participateOnlyParty, setValue]);
-
-
   const onSubmit = async (data: RegistrationInput) => {
-    const res = await fetch("/api/register", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(data),
-    });
+    setSubmitError(null);
 
-    if (!res.ok) {
-      throw new Error("Erreur envoi");
+    // ✅ log côté navigateur
+    console.log("Données envoyées depuis le formulaire :", data);
+
+    try {
+      const res = await fetch("/api/register", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(data),
+      });
+
+      const result = await res.json();
+
+      // ✅ log de la réponse API
+      console.log("Réponse API /api/register :", result);
+
+      if (!res.ok) {
+        throw new Error(result?.error || "Erreur envoi");
+      }
+    } catch (error) {
+      console.error("Erreur soumission formulaire :", error);
+      setSubmitError("Une erreur est survenue lors de l’envoi du formulaire.");
     }
   };
 
   return (
-    <section className="bg-red text-white ">
+    <section className="bg-red text-white">
       <div className="mx-auto max-w-7xl px-6 py-16">
-        <h2 className="text-center text-5xl font-agdasima ">INSCRIPTIONS</h2>
+        <h2 className="text-center text-5xl font-agdasima">INSCRIPTIONS</h2>
 
         <div className="text-center text-2xl leading-none font-agdasima">
           <p className="mt-2 text-center text-white">
-            La vague revient pour sa 3ᵉ édition ! Rendez-vous le 4 septembre sur la
-            plage de CAPBRETON AU CLUB SURF OLDIES - Promenade du front de mer Plage du Prévent
+            La vague revient pour sa 3ᵉ édition ! Rendez-vous le 4 septembre sur
+            la plage de CAPBRETON AU CLUB SURF OLDIES - Promenade du front de mer
+            Plage du Prévent
           </p>
           <p>
             Préparez-vous à vivre des sensations fortes et à vibrer au rythme des
             vagues !
           </p>
           <p>
-            La 3ᵉ édition du Dental Surf Contest arrive bientôt et promet encore plus
-            d’adrénaline, de fun et de performances spectaculaires.
+            La 3ᵉ édition du Dental Surf Contest arrive bientôt et promet encore
+            plus d’adrénaline, de fun et de performances spectaculaires.
           </p>
           <p>
-            Que vous soyez surfeur confirmé ou simple passionné, venez encourager les
-            meilleurs riders et profiter d’une ambiance unique entre passion et
-            compétition. Des surprises, des animations et des moments inoubliables
-            vous attendent !
+            Que vous soyez surfeur confirmé ou simple passionné, venez encourager
+            les meilleurs riders et profiter d’une ambiance unique entre passion
+            et compétition. Des surprises, des animations et des moments
+            inoubliables vous attendent !
           </p>
-
           <p>
             Inscrivez-vous dès maintenant et ne manquez pas le rendez-vous
             incontournable de la saison !
           </p>
         </div>
 
-        <p className="mt-2 text-center text-xl font-semibold font-barlow-condensed ">
-          Places compétiteurs/compétitrices limitées à 40 surfeurs! Pas de limite
-          pour les cours de surf
+        <p className="mt-2 text-center text-xl font-semibold font-barlow-condensed">
+          Places compétiteurs/compétitrices limitées à 40 surfeurs ! Pas de
+          limite pour les cours de surf
         </p>
 
-        <form onSubmit={handleSubmit(onSubmit)} className="max-w-2xl mx-auto mt-12">
-          <h3 className="text-3xl font-bold font-barlow-condensed text-yellow">
+        <form
+          onSubmit={handleSubmit(onSubmit)}
+          className="mx-auto mt-12 max-w-2xl"
+        >
+          <h3 className="font-barlow-condensed text-3xl font-bold text-yellow">
             INSCRIPTIONS
           </h3>
 
-          {/* Inputs type "barres" */}
           <div className="mt-4 space-y-4 font-barlow">
             <div>
               <input
@@ -196,41 +197,39 @@ export default function RegistrationForm() {
             </div>
           </div>
 
-          {/* Déjà adhérent + licence + niveau */}
           <div className="mt-6 space-y-4 font-barlow">
-            {/* Déjà adhérent : OUI/NON (checkbox natives, exclusif) */}
             <div className="flex flex-wrap items-center gap-3">
-              <span className="text-white/90 text-lg font-semibold">Déjà adhérent d’un club</span>
+              <span className="text-lg font-semibold text-white/90">
+                Déjà adhérent d’un club
+              </span>
 
-              <label className="inline-flex items-center gap-2 cursor-pointer select-none">
+              <label className="inline-flex cursor-pointer select-none items-center gap-2">
                 <input
                   type="checkbox"
                   className={CB}
                   checked={clubMember === true}
-                  onChange={(e) => {
-                    if (e.target.checked) {
-                      setValue("clubMember", true, { shouldValidate: true });
-                    } else {
-                      // si on décoche "oui" -> on bascule sur "non"
-                      setValue("clubMember", false, { shouldValidate: true });
-                    }
-                  }}
+                  onChange={(e) =>
+                    setValue("clubMember", e.target.checked, {
+                      shouldValidate: true,
+                    })
+                  }
                 />
                 <span className="text-white/90">oui</span>
               </label>
 
-              <label className="inline-flex items-center gap-2 cursor-pointer select-none">
+              <label className="inline-flex cursor-pointer select-none items-center gap-2">
                 <input
                   type="checkbox"
                   className={CB}
                   checked={clubMember === false}
                   onChange={(e) => {
+                    setValue("clubMember", !e.target.checked, {
+                      shouldValidate: true,
+                    });
                     if (e.target.checked) {
-                      setValue("clubMember", false, { shouldValidate: true });
-                      setValue("competitionLicense", false, { shouldValidate: true });
-                    } else {
-                      // si on décoche "non" -> on bascule sur "oui"
-                      setValue("clubMember", true, { shouldValidate: true });
+                      setValue("competitionLicense", false, {
+                        shouldValidate: true,
+                      });
                     }
                   }}
                 />
@@ -238,16 +237,17 @@ export default function RegistrationForm() {
               </label>
             </div>
 
-            {/* Licence compétition : OUI/NON (grisé + disabled si clubMember=false) */}
             <div
               className={`flex flex-wrap items-center gap-3 ${
                 !clubMember ? "opacity-50" : ""
               }`}
             >
-              <span className="text-white/90 text-lg font-semibold">Si oui licence compétition</span>
+              <span className="text-lg font-semibold text-white/90">
+                Si oui licence compétition
+              </span>
 
               <label
-                className={`inline-flex items-center gap-2 select-none ${
+                className={`inline-flex select-none items-center gap-2 ${
                   !clubMember ? "cursor-not-allowed" : "cursor-pointer"
                 }`}
               >
@@ -256,19 +256,17 @@ export default function RegistrationForm() {
                   className={CB}
                   disabled={!clubMember}
                   checked={watch("competitionLicense") === true}
-                  onChange={(e) => {
-                    if (e.target.checked) {
-                      setValue("competitionLicense", true, { shouldValidate: true });
-                    } else {
-                      setValue("competitionLicense", false, { shouldValidate: true });
-                    }
-                  }}
+                  onChange={(e) =>
+                    setValue("competitionLicense", e.target.checked, {
+                      shouldValidate: true,
+                    })
+                  }
                 />
                 <span className="text-white/90">oui</span>
               </label>
 
               <label
-                className={`inline-flex items-center gap-2 select-none ${
+                className={`inline-flex select-none items-center gap-2 ${
                   !clubMember ? "cursor-not-allowed" : "cursor-pointer"
                 }`}
               >
@@ -277,116 +275,120 @@ export default function RegistrationForm() {
                   className={CB}
                   disabled={!clubMember}
                   checked={watch("competitionLicense") === false}
-                  onChange={(e) => {
-                    if (e.target.checked) {
-                      setValue("competitionLicense", false, { shouldValidate: true });
-                    } else {
-                      // si on décoche "non" -> on bascule sur "oui"
-                      setValue("competitionLicense", true, { shouldValidate: true });
-                    }
-                  }}
+                  onChange={(e) =>
+                    setValue("competitionLicense", !e.target.checked, {
+                      shouldValidate: true,
+                    })
+                  }
                 />
                 <span className="text-white/90">non</span>
               </label>
             </div>
+            <FieldError msg={errors.competitionLicense?.message} />
 
-            {/* Niveau (tes radios, inchangées) */}
-          <div className="flex flex-wrap items-center gap-3">
-  <span className="text-white/90 text-lg font-semibold">Niveau</span>
+            <div className="flex flex-wrap items-center gap-3">
+              <span className="text-lg font-semibold text-white/90">Niveau</span>
 
-  <label className="inline-flex items-center gap-2 cursor-pointer select-none">
-    <input
-      type="checkbox"
-      className={CB}
-      checked={watch("niveau") === "debutant"}
-      onChange={(e) => {
-        if (e.target.checked) {
-          setValue("niveau", "debutant", { shouldValidate: true });
-        }
-      }}
-    />
-    <span className="text-white/90">Débutant</span>
-  </label>
+              <label className="inline-flex cursor-pointer select-none items-center gap-2">
+                <input
+                  type="checkbox"
+                  className={CB}
+                  checked={watch("niveau") === "debutant"}
+                  onChange={() =>
+                    setValue("niveau", "debutant", { shouldValidate: true })
+                  }
+                />
+                <span className="text-white/90">Débutant</span>
+              </label>
 
-  <label className="inline-flex items-center gap-2 cursor-pointer select-none">
-    <input
-      type="checkbox"
-      className={CB}
-      checked={watch("niveau") === "intermediaire"}
-      onChange={(e) => {
-        if (e.target.checked) {
-          setValue("niveau", "intermediaire", { shouldValidate: true });
-        }
-      }}
-    />
-    <span className="text-white/90">Intermédiaire</span>
-  </label>
+              <label className="inline-flex cursor-pointer select-none items-center gap-2">
+                <input
+                  type="checkbox"
+                  className={CB}
+                  checked={watch("niveau") === "intermediaire"}
+                  onChange={() =>
+                    setValue("niveau", "intermediaire", {
+                      shouldValidate: true,
+                    })
+                  }
+                />
+                <span className="text-white/90">Intermédiaire</span>
+              </label>
 
-  <label className="inline-flex items-center gap-2 cursor-pointer select-none">
-    <input
-      type="checkbox"
-      className={CB}
-      checked={watch("niveau") === "expert"}
-      onChange={(e) => {
-        if (e.target.checked) {
-          setValue("niveau", "expert", { shouldValidate: true });
-        }
-      }}
-    />
-    <span className="text-white/90">Expert</span>
-  </label>
-
-  <FieldError msg={errors.niveau?.message} />
-</div>
+              <label className="inline-flex cursor-pointer select-none items-center gap-2">
+                <input
+                  type="checkbox"
+                  className={CB}
+                  checked={watch("niveau") === "expert"}
+                  onChange={() =>
+                    setValue("niveau", "expert", { shouldValidate: true })
+                  }
+                />
+                <span className="text-white/90">Expert</span>
+              </label>
+            </div>
+            <FieldError msg={errors.niveau?.message} />
           </div>
 
-          {/* Texte + checkboxes */}
           <div className="mt-6 space-y-4 text-white/90">
-            <p className="font-semibold text-lg">
+            <p className="text-lg font-semibold">
               Fournir une copie de pièce d’identité et un certificat médical
             </p>
 
-            <label className="flex items-start gap-3 cursor-pointer select-none">
+            <label className="flex cursor-pointer select-none items-start gap-3">
               <input
                 type="checkbox"
                 {...register("agreeDocs")}
                 className={`${CB} mt-1`}
               />
               <span className="text-lg">
-                Fournir une copie de pièce d’identité et un certificat médical à envoyer à{" "}
-                <span className="font-semibold text-lg">contact@dentalsurfcontest.com</span>
+                Fournir une copie de pièce d’identité et un certificat médical à
+                envoyer à{" "}
+                <span className="text-lg font-semibold">
+                  contact@dentalsurfcontest.com
+                </span>
               </span>
             </label>
             <FieldError msg={errors.agreeDocs?.message} />
 
-<label
-  className={`flex items-center gap-3 select-none ${
-    participateOnlyParty
-      ? "opacity-50 cursor-not-allowed"
-      : "cursor-pointer"
-  }`}
->
-  <input
-    type="checkbox"
-    {...register("participateSurfLessons")}
-    className={CB}
-    disabled={participateOnlyParty}
-  />
-  <span className="text-lg">Participera aux cours de surf</span>
-</label>
+            <label
+              className={`flex items-center gap-3 select-none ${
+                participateOnlyParty
+                  ? "cursor-not-allowed opacity-50"
+                  : "cursor-pointer"
+              }`}
+            >
+              <input
+                type="checkbox"
+                {...register("participateSurfLessons")}
+                className={CB}
+                disabled={participateOnlyParty}
+              />
+              <span className="text-lg">Participera aux cours de surf</span>
+            </label>
+            <FieldError msg={errors.participateSurfLessons?.message} />
 
-            {/* Soirée + accompagnants (2 lignes) */}
             <div className="mt-4 space-y-4">
-              <div className="grid gap-4 md:grid-cols-[1fr_280px] md:items-center">
-                <label className="flex items-center gap-3 cursor-pointer select-none">
-                  <input
-                    type="checkbox"
-                    className={CB}
-                    checked={participateParty}
-                    onChange={(e) => toggleParty(e.target.checked)}
-                  />
-                  <span className="text-lg">Participera à la soirée</span>
-                </label>
+              <div className="grid gap-4 md:grid-cols-[1fr_280px] md:items-start">
+                <div>
+                  <label
+                    className={`flex items-center gap-3 select-none ${
+                      participateOnlyParty
+                        ? "cursor-not-allowed opacity-50"
+                        : "cursor-pointer"
+                    }`}
+                  >
+                    <input
+                      type="checkbox"
+                      className={CB}
+                      checked={participateParty}
+                      disabled={participateOnlyParty}
+                      onChange={(e) => toggleParty(e.target.checked)}
+                    />
+                    <span className="text-lg">Participera à la soirée</span>
+                  </label>
+                  <FieldError msg={errors.participateParty?.message} />
+                </div>
 
                 <div>
                   <input
@@ -394,25 +396,40 @@ export default function RegistrationForm() {
                     inputMode="numeric"
                     min={0}
                     max={10}
-                    disabled={!participateParty}
-                    {...register("accompanyCountParty", { valueAsNumber: true })}
+                    disabled={!participateParty || participateOnlyParty}
+                    {...register("accompanyCountParty", {
+                      valueAsNumber: true,
+                    })}
                     placeholder="NOMBRE D’ACCOMPAGNANTS"
                     className="w-full border border-white/30 bg-white px-4 py-3 font-bold text-black outline-none disabled:opacity-50"
                   />
-                  <FieldError msg={errors.accompanyCountParty?.message as string | undefined} />
+                  <FieldError
+                    msg={errors.accompanyCountParty?.message as
+                      | string
+                      | undefined}
+                  />
                 </div>
               </div>
 
-              <div className="grid gap-4 md:grid-cols-[1fr_280px] md:items-center">
-                <label className="flex items-center gap-3 cursor-pointer select-none">
-                  <input
-                    type="checkbox"
-                    className={CB}
-                    checked={participateOnlyParty}
-                    onChange={(e) => toggleOnlyParty(e.target.checked)}
+              <div className="grid gap-4 md:grid-cols-[1fr_280px] md:items-start">
+                <div>
+                  <label className="flex cursor-pointer select-none items-center gap-3">
+                    <input
+                      type="checkbox"
+                      className={CB}
+                      checked={participateOnlyParty}
+                      onChange={(e) => toggleOnlyParty(e.target.checked)}
+                    />
+                    <span className="text-lg">
+                      Participera uniquement à la soirée
+                    </span>
+                  </label>
+                  <FieldError
+                    msg={errors.participateOnlyParty?.message as
+                      | string
+                      | undefined}
                   />
-                  <span className="text-lg">Participera uniquement à la soirée</span>
-                </label>
+                </div>
 
                 <div>
                   <input
@@ -421,19 +438,22 @@ export default function RegistrationForm() {
                     min={0}
                     max={10}
                     disabled={!participateOnlyParty}
-                    {...register("accompanyCountOnlyParty", { valueAsNumber: true })}
+                    {...register("accompanyCountOnlyParty", {
+                      valueAsNumber: true,
+                    })}
                     placeholder="NOMBRE D’ACCOMPAGNANTS"
                     className="w-full border border-white/30 bg-white px-4 py-3 font-bold text-black outline-none disabled:opacity-50"
                   />
-                  <FieldError msg={errors.accompanyCountOnlyParty?.message as string | undefined} />
+                  <FieldError
+                    msg={errors.accompanyCountOnlyParty?.message as
+                      | string
+                      | undefined}
+                  />
                 </div>
               </div>
-
-              <FieldError msg={errors.participateOnlyParty?.message as string | undefined} />
             </div>
           </div>
 
-          {/* Honeypot */}
           <input
             {...register("botField")}
             className="hidden"
@@ -441,7 +461,6 @@ export default function RegistrationForm() {
             autoComplete="off"
           />
 
-          {/* CTA */}
           <div className="mt-12 flex justify-center">
             <button
               disabled={isSubmitting}
@@ -451,21 +470,15 @@ export default function RegistrationForm() {
             </button>
           </div>
 
-          {isSubmitSuccessful && (
+          {isSubmitSuccessful && !submitError && (
             <p className="mt-6 text-center text-green-300">
               Merci ! Ta pré-inscription a bien été envoyée.
             </p>
           )}
 
-          <div className="mt-5 mb-16 text-center">
-            <p className="text-xl font-extrabold">MERCI A NOS PARTENAIRES</p>
-            <button
-              type="button"
-              className="font-barlow-condensed mt-4 bg-dark-yellow px-10 py-2 text-xl font-extrabold text-white"
-            >
-              CONTACT
-            </button>
-          </div>
+          {submitError && (
+            <p className="mt-6 text-center text-red-300">{submitError}</p>
+          )}
         </form>
       </div>
     </section>

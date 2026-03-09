@@ -4,33 +4,35 @@ const phoneRegex = /^[0-9+\s().-]{8,20}$/;
 
 export const registrationSchema = z
   .object({
-    nom: z.string().trim().min(2).max(100),
-    prenom: z.string().trim().min(2).max(100),
-    telephone: z.string().trim().regex(phoneRegex, "Téléphone invalide").max(20),
-    email: z.string().trim().email().max(254),
+    nom: z.string().trim().min(2, "Le nom doit contenir au moins 2 caractères.").max(100),
+    prenom: z.string().trim().min(2, "Le prénom doit contenir au moins 2 caractères.").max(100),
+    telephone: z
+      .string()
+      .trim()
+      .max(20)
+      .regex(phoneRegex, "Téléphone invalide"),
+    email: z.string().trim().email("Email invalide").max(254),
 
-    // ✅ CHECKBOXES (true/false)
     clubMember: z.boolean(),
     competitionLicense: z.boolean(),
 
-    // Niveau (tu peux garder en radio si 1 seul choix)
-    niveau: z.enum(["debutant", "intermediaire", "expert"]),
+   niveau: z.enum(["debutant", "intermediaire", "expert"], {
+  message: "Veuillez choisir un niveau.",
+}),
 
-    // Checkboxes (true/false)
-    agreeDocs: z.boolean(), // "Fournir une copie ..."
+    agreeDocs: z.boolean(),
     participateSurfLessons: z.boolean(),
 
-    participateParty: z.boolean(), // "Participera à la soirée"
+    participateParty: z.boolean(),
     accompanyCountParty: z.number().int().min(0).max(10).optional(),
 
-    participateOnlyParty: z.boolean(), // "Participera uniquement à la soirée"
+    participateOnlyParty: z.boolean(),
     accompanyCountOnlyParty: z.number().int().min(0).max(10).optional(),
 
-    // Anti-bot honeypot
     botField: z.string().max(0),
   })
   .superRefine((data, ctx) => {
-    // 1) docs obligatoires
+    // 1) Documents obligatoires
     if (!data.agreeDocs) {
       ctx.addIssue({
         code: "custom",
@@ -38,35 +40,49 @@ export const registrationSchema = z
         message:
           "Vous devez confirmer l’envoi de la pièce d’identité et du certificat médical.",
       });
-      if ((data.participateParty || data.participateOnlyParty) && data.participateSurfLessons) {
-  ctx.addIssue({
-    code: "custom",
-    path: ["participateSurfLessons"],
-    message: "Les cours de surf ne sont pas compatibles avec la participation à la soirée.",
-  });
-}
     }
 
-    // ✅ Licence compétition seulement si adhérent club
+    // 2) Licence compétition seulement si adhérent club
     if (data.competitionLicense && !data.clubMember) {
       ctx.addIssue({
         code: "custom",
         path: ["competitionLicense"],
-        message: "La licence compétition n’est possible que si vous êtes adhérent(e) d’un club.",
+        message:
+          "La licence compétition n’est possible que si vous êtes adhérent(e) d’un club.",
       });
     }
 
-    // 2) Soirée : options exclusives
+    // 3) Soirée classique et soirée seule : exclusives
     if (data.participateParty && data.participateOnlyParty) {
       ctx.addIssue({
         code: "custom",
         path: ["participateOnlyParty"],
         message:
-          "Choisissez soit “Participera à la soirée” soit “Participera uniquement à la soirée”.",
+          "Choisissez soit « Participera à la soirée » soit « Participera uniquement à la soirée ».",
       });
     }
 
-    // 3) Si soirée cochée -> accompagnants requis
+    // 4) Si soirée classique cochée, les cours de surf doivent aussi être cochés
+    if (data.participateParty && !data.participateSurfLessons) {
+      ctx.addIssue({
+        code: "custom",
+        path: ["participateParty"],
+        message:
+          "Merci de cocher « Participera aux cours de surf » ou de choisir l’option « Participera uniquement à la soirée » si vous ne participez pas aux cours de surf.",
+      });
+    }
+
+    // 5) "Uniquement à la soirée" incompatible avec les cours de surf
+    if (data.participateOnlyParty && data.participateSurfLessons) {
+      ctx.addIssue({
+        code: "custom",
+        path: ["participateOnlyParty"],
+        message:
+          "L’option « Participera uniquement à la soirée » n’est pas compatible avec les cours de surf.",
+      });
+    }
+
+    // 6) Si soirée classique cochée -> nombre d'accompagnants requis
     if (data.participateParty && data.accompanyCountParty === undefined) {
       ctx.addIssue({
         code: "custom",
@@ -75,6 +91,7 @@ export const registrationSchema = z
       });
     }
 
+    // 7) Si soirée seule cochée -> nombre d'accompagnants requis
     if (data.participateOnlyParty && data.accompanyCountOnlyParty === undefined) {
       ctx.addIssue({
         code: "custom",
