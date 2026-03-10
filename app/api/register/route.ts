@@ -83,7 +83,7 @@ function rowAdmin(label: string, value: string | number) {
         vertical-align:top;
         width:42%;
         font-family:Arial, Helvetica, sans-serif;
-        background:#fff9e8;
+        background:#ffffff;
       ">
         ${label}
       </td>
@@ -95,7 +95,7 @@ function rowAdmin(label: string, value: string | number) {
         font-weight:700;
         vertical-align:top;
         font-family:Arial, Helvetica, sans-serif;
-        background:#fff9e8;
+        background:#ffffff;
       ">
         ${value}
       </td>
@@ -123,7 +123,7 @@ function buildParticipantHtml(data: {
     <head>
       <meta charset="UTF-8" />
       <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-      <title>Confirmation d'inscription au Dental Surf Contest</title>
+      <title>Confirmation d'inscription au Dental Surf Contest 2026 </title>
     </head>
     <body style="margin:0;padding:0;background:#fff9e8;font-family:Arial, Helvetica, sans-serif;color:#171717;">
       <table role="presentation" width="100%" cellspacing="0" cellpadding="0" style="background:#fff9e8;margin:0;padding:32px 16px;">
@@ -134,14 +134,14 @@ function buildParticipantHtml(data: {
               <tr>
                 <td style="padding:32px 32px 16px 32px;background:#ffffff;">
                   <div style="font-size:12px;letter-spacing:0.12em;text-transform:uppercase;color:#F15759;font-weight:700;margin-bottom:10px;">
-                    Dental Surf Contest
+                    Dental Surf Contest 2026
                   </div>
                   <h1 style="margin:0;font-size:32px;line-height:1.1;font-weight:700;color:#171717;">
-                    Confirmation de votre inscription
+                    Confirmation de votre inscription - Dental Surf Contest 2026
                   </h1>
                   <p style="margin:16px 0 0 0;font-size:16px;line-height:1.6;color:#4b5563;">
                     Bonjour <strong>${data.prenom} ${data.nom}</strong>,<br />
-                    Nous avons bien reçu votre inscription au <strong>Dental Surf Contest</strong>.
+                    Nous avons bien reçu votre inscription au <strong>Dental Surf Contest 2026</strong>.
                   </p>
                 </td>
               </tr>
@@ -149,13 +149,13 @@ function buildParticipantHtml(data: {
               <tr>
                 <td style="padding:0 32px 8px 32px;">
                   <div style="background:#F15759;border-radius:16px;padding:20px 22px;">
-                    <div style="font-size:13px;color:#4b5563;font-weight:600;letter-spacing:0.06em;text-transform:uppercase;margin-bottom:8px;">
+                    <div style="font-size:13px;color:#ffffff;font-weight:600;letter-spacing:0.06em;text-transform:uppercase;margin-bottom:8px;">
                       Événement
                     </div>
                     <div style="font-size:24px;line-height:1.2;font-weight:700;color:#ffffff;margin-bottom:8px;">
                       Dental Surf Contest 2026
                     </div>
-                    <div style="font-size:15px;line-height:1.6;color:#4b5563;">
+                    <div style="font-size:15px;line-height:1.6;color:#ffffff;">
                       4 septembre 2026<br />
                       Club Surf Oldies, Capbreton
                     </div>
@@ -192,7 +192,7 @@ function buildParticipantHtml(data: {
                   <div style="background:#FFF4C4;border:1px solid #F0D459;border-radius:14px;padding:18px 18px;">
                     <div style="font-size:14px;line-height:1.7;color:#374151;">
                       <strong style="color:#F15759;">Documents à envoyer :</strong><br />
-                      Merci d’envoyer votre copie de pièce d’identité et votre certificat médical à l’organisation.
+                      Merci d’envoyer votre copie de pièce d’identité et votre certificat médical à contact@dentalsurfcontest.com.
                     </div>
                   </div>
                 </td>
@@ -254,7 +254,7 @@ function buildAdminHtml(data: {
     <head>
       <meta charset="UTF-8" />
       <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-      <title>Nouvelle inscription au Dental Surf Contest</title>
+      <title>Nouvelle inscription au Dental Surf Contest 2026</title>
     </head>
     <body style="margin:0;padding:0;background:#fff9e8;font-family:Arial, Helvetica, sans-serif;color:#171717;">
       <table role="presentation" width="100%" cellspacing="0" cellpadding="0" style="background:#fff9e8;margin:0;padding:32px 16px;">
@@ -265,10 +265,10 @@ function buildAdminHtml(data: {
               <tr>
                 <td style="padding:32px 32px 16px 32px;background:#ffffff;">
                   <div style="font-size:12px;letter-spacing:0.12em;text-transform:uppercase;color:#F15759;font-weight:700;margin-bottom:10px;">
-                    Dental Surf Contest
+                    Dental Surf Contest 2026
                   </div>
                   <h1 style="margin:0;font-size:30px;line-height:1.1;font-weight:700;color:#171717;">
-                    Nouvelle inscription
+                    Nouvelle inscription - Dental Surf Contest 2026
                   </h1>
                   <p style="margin:16px 0 0 0;font-size:16px;line-height:1.6;color:#4b5563;">
                     Une nouvelle demande vient d’être enregistrée.
@@ -279,13 +279,13 @@ function buildAdminHtml(data: {
               <tr>
                 <td style="padding:0 32px 8px 32px;">
                   <div style="background:#F15759;border-radius:16px;padding:18px 22px;">
-                    <div style="font-size:13px;color:#4b5563;font-weight:600;letter-spacing:0.06em;text-transform:uppercase;margin-bottom:8px;">
+                    <div style="font-size:13px;color:#ffffff;font-weight:600;letter-spacing:0.06em;text-transform:uppercase;margin-bottom:8px;">
                       Participant
                     </div>
                     <div style="font-size:24px;line-height:1.2;font-weight:700;color:#ffffff;">
                       ${data.prenom} ${data.nom}
                     </div>
-                    <div style="font-size:15px;line-height:1.6;color:#4b5563;margin-top:8px;">
+                    <div style="font-size:15px;line-height:1.6;color:#ffffff;margin-top:8px;">
                       ${data.email}<br />
                       ${data.telephone}
                     </div>
@@ -322,7 +322,7 @@ function buildAdminHtml(data: {
                   <div style="background:#FFF4C4;border:1px solid #F0D459;border-radius:14px;padding:18px 18px;">
                     <div style="font-size:14px;line-height:1.7;color:#374151;">
                       <strong style="color:#F15759;">Action :</strong><br />
-                      Vérifier les documents transmis et suivre la confirmation de l’inscription.
+                      Vérifier les documents transmis.
                     </div>
                   </div>
                 </td>
@@ -331,7 +331,7 @@ function buildAdminHtml(data: {
               <tr>
                 <td style="padding:28px 32px 32px 32px;" align="center">
                   <p style="margin:0;font-size:12px;line-height:1.7;color:#9ca3af;">
-                    Notification automatique • Dental Surf Contest
+                      Dental Surf Contest 2026
                   </p>
                 </td>
               </tr>
