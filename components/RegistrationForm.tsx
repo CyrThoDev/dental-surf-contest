@@ -331,26 +331,6 @@ export default function RegistrationForm() {
           </div>
 
           <div className="mt-6 space-y-4 text-white/90">
-            <p className="text-lg font-semibold">
-              Fournir une copie de pièce d’identité et un certificat médical
-            </p>
-
-            <label className="flex cursor-pointer select-none items-start gap-3">
-              <input
-                type="checkbox"
-                {...register("agreeDocs")}
-                className={`${CB} mt-1`}
-              />
-              <span className="text-lg">
-                Fournir une copie de pièce d’identité et un certificat médical à
-                envoyer à{" "}
-                <span className="text-lg font-semibold">
-                  contact@dentalsurfcontest.com
-                </span>
-              </span>
-            </label>
-            <FieldError msg={errors.agreeDocs?.message} />
-
             <label
               className={`flex items-center gap-3 select-none ${
                 participateOnlyParty
@@ -452,6 +432,14 @@ export default function RegistrationForm() {
                 </div>
               </div>
             </div>
+
+            <p className="text-lg">
+              Fournir une copie de pièce d’identité et un certificat médical à
+              envoyer à{" "}
+              <span className="text-lg font-semibold">
+                contact@dentalsurfcontest.com
+              </span>
+            </p>
           </div>
 
           <input
@@ -471,7 +459,7 @@ export default function RegistrationForm() {
           </div>
 
           {isSubmitSuccessful && !submitError && (
-            <div className="flex flex-col items-center justify-center">
+            <div className="flex flex-col items-center just">
             <p className="mt-6 text-center text-white">
               Merci ! Votre inscription a bien été envoyée. 
             </p>
@@ -486,7 +474,7 @@ pensez à vérifier votre dossier <strong>spam / courrier indésirable</strong>.
             <p className="mt-6 text-center text-black">{submitError}</p>
           )}
         </form>
-      </div>z
+      </div>
     </section>
   );
 }
