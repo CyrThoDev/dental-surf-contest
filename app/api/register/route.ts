@@ -110,7 +110,6 @@ function buildParticipantHtml(data: {
   clubMember: boolean;
   competitionLicense: boolean;
   niveau: "debutant" | "intermediaire" | "expert";
-  agreeDocs: boolean;
   participateSurfLessons: boolean;
   participateParty: boolean;
   accompanyCountParty?: number;
@@ -177,7 +176,6 @@ function buildParticipantHtml(data: {
                     ${rowParticipant("Déjà adhérent d’un club", formatBoolean(data.clubMember))}
                     ${rowParticipant("Licence compétition", formatBoolean(data.competitionLicense))}
                     ${rowParticipant("Niveau", formatNiveau(data.niveau))}
-                    ${rowParticipant("Documents à fournir", formatBoolean(data.agreeDocs))}
                     ${rowParticipant("Participera aux cours de surf", formatBoolean(data.participateSurfLessons))}
                     ${rowParticipant("Participera à la soirée", formatBoolean(data.participateParty))}
                     ${rowParticipant("Accompagnants soirée", data.accompanyCountParty ?? 0)}
@@ -241,7 +239,6 @@ function buildAdminHtml(data: {
   clubMember: boolean;
   competitionLicense: boolean;
   niveau: "debutant" | "intermediaire" | "expert";
-  agreeDocs: boolean;
   participateSurfLessons: boolean;
   participateParty: boolean;
   accompanyCountParty?: number;
@@ -307,7 +304,6 @@ function buildAdminHtml(data: {
                     ${rowAdmin("Déjà adhérent d’un club", formatBoolean(data.clubMember))}
                     ${rowAdmin("Licence compétition", formatBoolean(data.competitionLicense))}
                     ${rowAdmin("Niveau", formatNiveau(data.niveau))}
-                    ${rowAdmin("Documents à fournir", formatBoolean(data.agreeDocs))}
                     ${rowAdmin("Participera aux cours de surf", formatBoolean(data.participateSurfLessons))}
                     ${rowAdmin("Participera à la soirée", formatBoolean(data.participateParty))}
                     ${rowAdmin("Accompagnants soirée", data.accompanyCountParty ?? 0)}

@@ -16,11 +16,10 @@ export const registrationSchema = z
     clubMember: z.boolean(),
     competitionLicense: z.boolean(),
 
-   niveau: z.enum(["debutant", "intermediaire", "expert"], {
-  message: "Veuillez choisir un niveau.",
-}),
+    niveau: z.enum(["debutant", "intermediaire", "expert"], {
+      message: "Veuillez choisir un niveau.",
+    }),
 
-    agreeDocs: z.boolean(),
     participateSurfLessons: z.boolean(),
 
     participateParty: z.boolean(),
@@ -32,17 +31,7 @@ export const registrationSchema = z
     botField: z.string().max(0),
   })
   .superRefine((data, ctx) => {
-    // 1) Documents obligatoires
-    if (!data.agreeDocs) {
-      ctx.addIssue({
-        code: "custom",
-        path: ["agreeDocs"],
-        message:
-          "Vous devez confirmer l’envoi de la pièce d’identité et du certificat médical.",
-      });
-    }
-
-    // 2) Licence compétition seulement si adhérent club
+    // 1) Licence compétition seulement si adhérent club
     if (data.competitionLicense && !data.clubMember) {
       ctx.addIssue({
         code: "custom",
@@ -52,7 +41,7 @@ export const registrationSchema = z
       });
     }
 
-    // 3) Soirée classique et soirée seule : exclusives
+    // 2) Soirée classique et soirée seule : exclusives
     if (data.participateParty && data.participateOnlyParty) {
       ctx.addIssue({
         code: "custom",
@@ -62,7 +51,7 @@ export const registrationSchema = z
       });
     }
 
-    // 4) Si soirée classique cochée, les cours de surf doivent aussi être cochés
+    // 3) Si soirée classique cochée, les cours de surf doivent aussi être cochés
     if (data.participateParty && !data.participateSurfLessons) {
       ctx.addIssue({
         code: "custom",
@@ -72,7 +61,7 @@ export const registrationSchema = z
       });
     }
 
-    // 5) "Uniquement à la soirée" incompatible avec les cours de surf
+    // 4) "Uniquement à la soirée" incompatible avec les cours de surf
     if (data.participateOnlyParty && data.participateSurfLessons) {
       ctx.addIssue({
         code: "custom",
@@ -82,7 +71,7 @@ export const registrationSchema = z
       });
     }
 
-    // 6) Si soirée classique cochée -> nombre d'accompagnants requis
+    // 5) Si soirée classique cochée -> nombre d'accompagnants requis
     if (data.participateParty && data.accompanyCountParty === undefined) {
       ctx.addIssue({
         code: "custom",
@@ -91,7 +80,7 @@ export const registrationSchema = z
       });
     }
 
-    // 7) Si soirée seule cochée -> nombre d'accompagnants requis
+    // 6) Si soirée seule cochée -> nombre d'accompagnants requis
     if (data.participateOnlyParty && data.accompanyCountOnlyParty === undefined) {
       ctx.addIssue({
         code: "custom",
