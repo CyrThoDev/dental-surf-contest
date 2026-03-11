@@ -451,7 +451,7 @@ export default function RegistrationForm() {
           <div className="mt-12 flex justify-center">
             <button
               disabled={isSubmitting}
-              className="font-barlow-condensed w-[300px] bg-yellow px-8 py-3 text-3xl font-extrabold text-black disabled:opacity-60"
+              className="font-barlow-condensed w-[300px] bg-blue hover:bg-yellow active:bg-yellow px-8 py-3 text-3xl font-extrabold text-black disabled:opacity-60"
             >
               {isSubmitting ? "ENVOI..." : "VALIDER"}
             </button>
@@ -478,7 +478,7 @@ export default function RegistrationForm() {
 
   <a
     href="mailto:contact@dentalsurfcontest.com"
-    className="mt-6 inline-flex  px-12 py-3  items-center justify-center bg-white  font-barlow-condensed text-2xl font-bold leading-none text-black"
+    className="mt-6 inline-flex  px-12 py-3  items-center justify-center bg-yellow hover:bg-white active:bg-white  font-barlow-condensed text-2xl font-bold leading-none text-black"
   >
     CONTACT
   </a>
