@@ -478,7 +478,7 @@ export default function RegistrationForm() {
 
   <a
     href="mailto:contact@dentalsurfcontest.com"
-    className="mt-6 inline-flex  px-12 py-3  items-center justify-center bg-yellow hover:bg-white active:bg-white  font-barlow-condensed text-2xl font-bold leading-none text-black"
+    className="mt-6 inline-flex  px-12 py-3  items-center justify-center bg-white hover:bg-yellow active:bg-yellow  font-barlow-condensed text-2xl font-bold leading-none text-black"
   >
     CONTACT
   </a>
