@@ -343,8 +343,7 @@ function buildAdminHtml(data: {
 
 export async function POST(req: Request) {
   try {
-    const body = await req.json();
-    console.log("Payload brut reçu :", body);
+    const body = await req.json();  
 
     const parsed = registrationSchema.safeParse(body);
 
@@ -361,10 +360,7 @@ export async function POST(req: Request) {
     const from = process.env.REGISTRATION_FROM_EMAIL;
     const notificationEmail = process.env.REGISTRATION_NOTIFICATION_EMAIL;
 
-    console.log("FROM =", from);
-    console.log("TO participant =", data.email);
-    console.log("TO admin =", notificationEmail);
-
+  
     if (!process.env.RESEND_API_KEY) {
       return NextResponse.json(
         { error: "RESEND_API_KEY manquante" },
@@ -393,7 +389,7 @@ export async function POST(req: Request) {
       html: buildParticipantHtml(data),
     });
 
-    console.log("participantMail =", participantMail);
+  
 
     if (participantMail.error) {
       console.error("Erreur mail participant :", participantMail.error);
@@ -410,7 +406,7 @@ export async function POST(req: Request) {
       html: buildAdminHtml(data),
     });
 
-    console.log("adminMail =", adminMail);
+   
 
     if (adminMail.error) {
       console.error("Erreur mail admin :", adminMail.error);
