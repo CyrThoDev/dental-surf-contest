@@ -22,7 +22,6 @@ export default function RegistrationForm() {
       clubMember: false,
       competitionLicense: false,
       niveau: "debutant",
-      agreeDocs: false,
       participateSurfLessons: false,
       participateParty: false,
       accompanyCountParty: undefined,
@@ -331,26 +330,6 @@ export default function RegistrationForm() {
           </div>
 
           <div className="mt-6 space-y-4 text-white/90">
-            <p className="text-lg font-semibold">
-              Fournir une copie de pièce d’identité et un certificat médical
-            </p>
-
-            <label className="flex cursor-pointer select-none items-start gap-3">
-              <input
-                type="checkbox"
-                {...register("agreeDocs")}
-                className={`${CB} mt-1`}
-              />
-              <span className="text-lg">
-                Fournir une copie de pièce d’identité et un certificat médical à
-                envoyer à{" "}
-                <span className="text-lg font-semibold">
-                  contact@dentalsurfcontest.com
-                </span>
-              </span>
-            </label>
-            <FieldError msg={errors.agreeDocs?.message} />
-
             <label
               className={`flex items-center gap-3 select-none ${
                 participateOnlyParty
@@ -452,6 +431,14 @@ export default function RegistrationForm() {
                 </div>
               </div>
             </div>
+
+            <p className="text-lg">
+              Fournir une copie de pièce d’identité et un certificat médical à
+              envoyer à{" "}
+              <span className="text-lg font-semibold">
+                contact@dentalsurfcontest.com
+              </span>
+            </p>
           </div>
 
           <input
@@ -464,29 +451,44 @@ export default function RegistrationForm() {
           <div className="mt-12 flex justify-center">
             <button
               disabled={isSubmitting}
-              className="font-barlow-condensed w-[300px] bg-blue px-8 py-3 text-2xl font-extrabold text-white disabled:opacity-60"
+              className="font-barlow-condensed w-[300px] bg-blue hover:bg-yellow active:bg-yellow px-8 py-3 text-3xl font-extrabold text-black disabled:opacity-60"
             >
               {isSubmitting ? "ENVOI..." : "VALIDER"}
             </button>
           </div>
 
-          {isSubmitSuccessful && !submitError && (
-            <div className="flex flex-col items-center justify-center">
-            <p className="mt-6 text-center text-white">
-              Merci ! Votre inscription a bien été envoyée. 
-            </p>
-            <p className="margin-top:12px;font-size:14px;color:#555;">
-Un email de confirmation vient de vous être envoyé.
-Si vous ne le recevez pas dans les prochaines minutes,
-pensez à vérifier votre dossier <strong>spam / courrier indésirable</strong>.
-</p></div>
-          )}
+        {isSubmitSuccessful && !submitError && (
+  <div className="flex flex-col items-center justify-center text-center">
+    <p className="mt-6 text-white">
+      Merci ! Votre inscription a bien été envoyée.
+    </p>
+
+    <p className="mt-3 text-sm text-gray-200 max-w-md">
+      Un email de confirmation vient de vous être envoyé.
+      Si vous ne le recevez pas dans les prochaines minutes,
+      pensez à vérifier votre dossier <strong>spam / courrier indésirable</strong>.
+    </p>
+  </div>
+)}
+
+<div className="mt-6 flex flex-col items-center text-center">
+  <h3 className="font-barlow-condensed text-3xl font-bold leading-none text-white">
+    MERCI A NOS PARTENAIRES
+  </h3>
+
+  <a
+    href="mailto:contact@dentalsurfcontest.com"
+    className="mt-6 inline-flex  px-12 py-3  items-center justify-center bg-white hover:bg-yellow active:bg-yellow  font-barlow-condensed text-2xl font-bold leading-none text-black"
+  >
+    CONTACT
+  </a>
+</div>
 
           {submitError && (
             <p className="mt-6 text-center text-black">{submitError}</p>
           )}
         </form>
-      </div>z
+      </div>
     </section>
   );
 }
