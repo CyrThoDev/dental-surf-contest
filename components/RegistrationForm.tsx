@@ -90,8 +90,7 @@ export default function RegistrationForm() {
   const onSubmit = async (data: RegistrationInput) => {
     setSubmitError(null);
 
-    // ✅ log côté navigateur
-    console.log("Données envoyées depuis le formulaire :", data);
+
 
     try {
       const res = await fetch("/api/register", {
@@ -102,8 +101,7 @@ export default function RegistrationForm() {
 
       const result = await res.json();
 
-      // ✅ log de la réponse API
-      console.log("Réponse API /api/register :", result);
+
 
       if (!res.ok) {
         throw new Error(result?.error || "Erreur envoi");

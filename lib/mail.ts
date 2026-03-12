@@ -21,8 +21,7 @@
 import type { RegistrationInput } from "@/lib/validation";
 
 export async function sendRegistrationEmail(data: RegistrationInput) {
-  // Version temporaire sans envoi mail
-  console.log("Nouvelle inscription reçue :", data);
+
 
   // Simule un succès
   return { ok: true };
