@@ -31,7 +31,6 @@ export const registrationSchema = z
     botField: z.string().max(0),
   })
   .superRefine((data, ctx) => {
-    // 1) Licence compétition seulement si adhérent club
     if (data.competitionLicense && !data.clubMember) {
       ctx.addIssue({
         code: "custom",
@@ -41,7 +40,6 @@ export const registrationSchema = z
       });
     }
 
-    // 2) Soirée classique et soirée seule : exclusives
     if (data.participateParty && data.participateOnlyParty) {
       ctx.addIssue({
         code: "custom",
@@ -51,7 +49,6 @@ export const registrationSchema = z
       });
     }
 
-    // 3) Si soirée classique cochée, les cours de surf doivent aussi être cochés
     if (data.participateParty && !data.participateSurfLessons) {
       ctx.addIssue({
         code: "custom",
@@ -61,7 +58,6 @@ export const registrationSchema = z
       });
     }
 
-    // 4) "Uniquement à la soirée" incompatible avec les cours de surf
     if (data.participateOnlyParty && data.participateSurfLessons) {
       ctx.addIssue({
         code: "custom",
@@ -71,7 +67,6 @@ export const registrationSchema = z
       });
     }
 
-    // 5) Si soirée classique cochée -> nombre d'accompagnants requis
     if (data.participateParty && data.accompanyCountParty === undefined) {
       ctx.addIssue({
         code: "custom",
@@ -80,7 +75,6 @@ export const registrationSchema = z
       });
     }
 
-    // 6) Si soirée seule cochée -> nombre d'accompagnants requis
     if (data.participateOnlyParty && data.accompanyCountOnlyParty === undefined) {
       ctx.addIssue({
         code: "custom",
