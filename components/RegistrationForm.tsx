@@ -90,8 +90,6 @@ export default function RegistrationForm() {
   const onSubmit = async (data: RegistrationInput) => {
     setSubmitError(null);
 
-
-
     try {
       const res = await fetch("/api/register", {
         method: "POST",
@@ -100,8 +98,6 @@ export default function RegistrationForm() {
       });
 
       const result = await res.json();
-
-
 
       if (!res.ok) {
         throw new Error(result?.error || "Erreur envoi");
@@ -364,6 +360,12 @@ export default function RegistrationForm() {
                     />
                     <span className="text-lg">Participera à la soirée</span>
                   </label>
+
+                  <p className="mt-1 text-sm text-white/80">
+                    Merci d’indiquer le nombre d’accompagnants (
+                    <strong>0 si aucun</strong>).
+                  </p>
+
                   <FieldError msg={errors.participateParty?.message} />
                 </div>
 
@@ -375,7 +377,8 @@ export default function RegistrationForm() {
                     max={10}
                     disabled={!participateParty || participateOnlyParty}
                     {...register("accompanyCountParty", {
-                      valueAsNumber: true,
+                      setValueAs: (value) =>
+                        value === "" ? undefined : Number(value),
                     })}
                     placeholder="NOMBRE D’ACCOMPAGNANTS"
                     className="w-full border border-white/30 bg-white px-4 py-3 font-bold text-black outline-none disabled:opacity-50"
@@ -401,6 +404,12 @@ export default function RegistrationForm() {
                       Participera uniquement à la soirée
                     </span>
                   </label>
+
+                  <p className="mt-1 text-sm text-white/80">
+                    Merci d’indiquer le nombre d’accompagnants (
+                    <strong>0 si aucun</strong>).
+                  </p>
+
                   <FieldError
                     msg={errors.participateOnlyParty?.message as
                       | string
@@ -416,7 +425,8 @@ export default function RegistrationForm() {
                     max={10}
                     disabled={!participateOnlyParty}
                     {...register("accompanyCountOnlyParty", {
-                      valueAsNumber: true,
+                      setValueAs: (value) =>
+                        value === "" ? undefined : Number(value),
                     })}
                     placeholder="NOMBRE D’ACCOMPAGNANTS"
                     className="w-full border border-white/30 bg-white px-4 py-3 font-bold text-black outline-none disabled:opacity-50"
@@ -454,32 +464,32 @@ export default function RegistrationForm() {
             </button>
           </div>
 
-        {isSubmitSuccessful && !submitError && (
-  <div className="flex flex-col items-center justify-center text-center">
-    <p className="mt-6 text-white">
-      Merci ! Votre inscription a bien été envoyée.
-    </p>
+          {isSubmitSuccessful && !submitError && (
+            <div className="flex flex-col items-center justify-center text-center">
+              <p className="mt-6 text-white">
+                Merci ! Votre inscription a bien été envoyée.
+              </p>
 
-    <p className="mt-3 text-sm text-gray-200 max-w-md">
-      Un email de confirmation vient de vous être envoyé.
-      Si vous ne le recevez pas dans les prochaines minutes,
-      pensez à vérifier votre dossier <strong>spam / courrier indésirable</strong>.
-    </p>
-  </div>
-)}
+              <p className="mt-3 text-sm text-gray-200 max-w-md">
+                Un email de confirmation vient de vous être envoyé.
+                Si vous ne le recevez pas dans les prochaines minutes,
+                pensez à vérifier votre dossier <strong>spam / courrier indésirable</strong>.
+              </p>
+            </div>
+          )}
 
-<div className="mt-6 flex flex-col items-center text-center">
-  <h3 className="font-barlow-condensed text-3xl font-bold leading-none text-white">
-    MERCI A NOS PARTENAIRES
-  </h3>
+          <div className="mt-6 flex flex-col items-center text-center">
+            <h3 className="font-barlow-condensed text-3xl font-bold leading-none text-white">
+              MERCI A NOS PARTENAIRES
+            </h3>
 
-  <a
-    href="mailto:contact@dentalsurfcontest.com"
-    className="mt-6 inline-flex  px-12 py-3  items-center justify-center bg-white hover:bg-yellow active:bg-yellow  font-barlow-condensed text-2xl font-bold leading-none text-black"
-  >
-    CONTACT
-  </a>
-</div>
+            <a
+              href="mailto:contact@dentalsurfcontest.com"
+              className="mt-6 inline-flex  px-12 py-3  items-center justify-center bg-white hover:bg-yellow active:bg-yellow  font-barlow-condensed text-2xl font-bold leading-none text-black"
+            >
+              CONTACT
+            </a>
+          </div>
 
           {submitError && (
             <p className="mt-6 text-center text-black">{submitError}</p>

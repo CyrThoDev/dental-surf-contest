@@ -23,10 +23,24 @@ export const registrationSchema = z
     participateSurfLessons: z.boolean(),
 
     participateParty: z.boolean(),
-    accompanyCountParty: z.number().int().min(0).max(10).optional(),
+    accompanyCountParty: z
+      .number({
+        invalid_type_error: "Indiquez le nombre d’accompagnants (0 si aucun).",
+      })
+      .int()
+      .min(0)
+      .max(10)
+      .optional(),
 
     participateOnlyParty: z.boolean(),
-    accompanyCountOnlyParty: z.number().int().min(0).max(10).optional(),
+    accompanyCountOnlyParty: z
+      .number({
+        invalid_type_error: "Indiquez le nombre d’accompagnants (0 si aucun).",
+      })
+      .int()
+      .min(0)
+      .max(10)
+      .optional(),
 
     botField: z.string().max(0),
   })
