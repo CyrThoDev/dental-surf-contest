@@ -431,8 +431,7 @@ export default function RegistrationForm() {
             </div>
 
             <p className="text-lg">
-              Fournir une copie de pièce d’identité et un certificat médical à
-              envoyer à{" "}
+              Fournir une copie de pièce d’identité et un certificat médical uniquement pour les compétiteurs ou photocopie de la licence 2026 à envoyer à{" "}
               <span className="text-lg font-semibold">
                 contact@dentalsurfcontest.com
               </span>
