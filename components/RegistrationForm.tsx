@@ -48,7 +48,7 @@ export default function RegistrationForm() {
   const participateOnlyParty = watch("participateOnlyParty");
   const clubMember = watch("clubMember");
 
-  const CB = "h-6 w-6 accent-white shrink-0";
+  const CB = "h-6 w-6  shrink-0 accent-black";
 
   useEffect(() => {
     if (!clubMember) {
