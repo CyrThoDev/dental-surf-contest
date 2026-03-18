@@ -22,11 +22,6 @@ export default function RegistrationForm() {
       clubMember: false,
       competitionLicense: false,
       niveau: "debutant",
-      participateSurfLessons: false,
-      participateParty: false,
-      accompanyCountParty: undefined,
-      participateOnlyParty: false,
-      accompanyCountOnlyParty: undefined,
       botField: "",
     }),
     []
@@ -44,48 +39,15 @@ export default function RegistrationForm() {
     mode: "onSubmit",
   });
 
-  const participateParty = watch("participateParty");
-  const participateOnlyParty = watch("participateOnlyParty");
   const clubMember = watch("clubMember");
 
-  const CB = "h-6 w-6  shrink-0 accent-black";
+  const CB = "h-6 w-6 shrink-0 accent-black";
 
   useEffect(() => {
     if (!clubMember) {
       setValue("competitionLicense", false, { shouldValidate: true });
     }
   }, [clubMember, setValue]);
-
-  const toggleParty = (checked: boolean) => {
-    setValue("participateParty", checked, { shouldValidate: true });
-
-    if (checked) {
-      setValue("participateOnlyParty", false, { shouldValidate: true });
-      setValue("accompanyCountOnlyParty", undefined, { shouldValidate: true });
-
-      if (watch("accompanyCountParty") === undefined) {
-        setValue("accompanyCountParty", 0, { shouldValidate: true });
-      }
-    } else {
-      setValue("accompanyCountParty", undefined, { shouldValidate: true });
-    }
-  };
-
-  const toggleOnlyParty = (checked: boolean) => {
-    setValue("participateOnlyParty", checked, { shouldValidate: true });
-
-    if (checked) {
-      setValue("participateSurfLessons", false, { shouldValidate: true });
-      setValue("participateParty", false, { shouldValidate: true });
-      setValue("accompanyCountParty", undefined, { shouldValidate: true });
-
-      if (watch("accompanyCountOnlyParty") === undefined) {
-        setValue("accompanyCountOnlyParty", 0, { shouldValidate: true });
-      }
-    } else {
-      setValue("accompanyCountOnlyParty", undefined, { shouldValidate: true });
-    }
-  };
 
   const onSubmit = async (data: RegistrationInput) => {
     setSubmitError(null);
@@ -104,7 +66,7 @@ export default function RegistrationForm() {
       }
     } catch (error) {
       console.error("Erreur soumission formulaire :", error);
-      setSubmitError("Une erreur est survenue lors de l’envoi du formulaire.");
+      setSubmitError("Une erreur est survenue lors de l'envoi du formulaire.");
     }
   };
 
@@ -125,11 +87,11 @@ export default function RegistrationForm() {
           </p>
           <p>
             La 3ᵉ édition du Dental Surf Contest arrive bientôt et promet encore
-            plus d’adrénaline, de fun et de performances spectaculaires.
+            plus d'adrénaline, de fun et de performances spectaculaires.
           </p>
           <p>
             Que vous soyez surfeur confirmé ou simple passionné, venez encourager
-            les meilleurs riders et profiter d’une ambiance unique entre passion
+            les meilleurs riders et profiter d'une ambiance unique entre passion
             et compétition. Des surprises, des animations et des moments
             inoubliables vous attendent !
           </p>
@@ -193,7 +155,7 @@ export default function RegistrationForm() {
           <div className="mt-6 space-y-4 font-barlow">
             <div className="flex flex-wrap items-center gap-3">
               <span className="text-lg font-semibold text-white/90">
-                Déjà adhérent d’un club
+                Déjà adhérent d'un club
               </span>
 
               <label className="inline-flex cursor-pointer select-none items-center gap-2">
@@ -300,9 +262,7 @@ export default function RegistrationForm() {
                   className={CB}
                   checked={watch("niveau") === "intermediaire"}
                   onChange={() =>
-                    setValue("niveau", "intermediaire", {
-                      shouldValidate: true,
-                    })
+                    setValue("niveau", "intermediaire", { shouldValidate: true })
                   }
                 />
                 <span className="text-white/90">Intermédiaire</span>
@@ -323,128 +283,19 @@ export default function RegistrationForm() {
             <FieldError msg={errors.niveau?.message} />
           </div>
 
-          <div className="mt-6 space-y-4 text-white/90">
-            <label
-              className={`flex items-center gap-3 select-none ${
-                participateOnlyParty
-                  ? "cursor-not-allowed opacity-50"
-                  : "cursor-pointer"
-              }`}
-            >
-              <input
-                type="checkbox"
-                {...register("participateSurfLessons")}
-                className={CB}
-                disabled={participateOnlyParty}
-              />
-              <span className="text-lg">Participera aux cours de surf</span>
-            </label>
-            <FieldError msg={errors.participateSurfLessons?.message} />
-
-            <div className="mt-4 space-y-4">
-              <div className="grid gap-4 md:grid-cols-[1fr_280px] md:items-start">
-                <div>
-                  <label
-                    className={`flex items-center gap-3 select-none ${
-                      participateOnlyParty
-                        ? "cursor-not-allowed opacity-50"
-                        : "cursor-pointer"
-                    }`}
-                  >
-                    <input
-                      type="checkbox"
-                      className={CB}
-                      checked={participateParty}
-                      disabled={participateOnlyParty}
-                      onChange={(e) => toggleParty(e.target.checked)}
-                    />
-                    <span className="text-lg">Participera à la soirée</span>
-                  </label>
-
-                  <p className="mt-1 text-sm text-white/80">
-                    Merci d’indiquer le nombre d’accompagnants (
-                    <strong>0 si aucun</strong>).
-                  </p>
-
-                  <FieldError msg={errors.participateParty?.message} />
-                </div>
-
-                <div>
-                  <input
-                    type="number"
-                    inputMode="numeric"
-                    min={0}
-                    max={10}
-                    disabled={!participateParty || participateOnlyParty}
-                    {...register("accompanyCountParty", {
-                      setValueAs: (value) =>
-                        value === "" ? undefined : Number(value),
-                    })}
-                    placeholder="NOMBRE D’ACCOMPAGNANTS"
-                    className="w-full border border-white/30 bg-white px-4 py-3 font-bold text-black outline-none disabled:opacity-50"
-                  />
-                  <FieldError
-                    msg={errors.accompanyCountParty?.message as
-                      | string
-                      | undefined}
-                  />
-                </div>
-              </div>
-
-              <div className="grid gap-4 md:grid-cols-[1fr_280px] md:items-start">
-                <div>
-                  <label className="flex cursor-pointer select-none items-center gap-3">
-                    <input
-                      type="checkbox"
-                      className={CB}
-                      checked={participateOnlyParty}
-                      onChange={(e) => toggleOnlyParty(e.target.checked)}
-                    />
-                    <span className="text-lg">
-                      Participera uniquement à la soirée
-                    </span>
-                  </label>
-
-                  <p className="mt-1 text-sm text-white/80">
-                    Merci d’indiquer le nombre d’accompagnants (
-                    <strong>0 si aucun</strong>).
-                  </p>
-
-                  <FieldError
-                    msg={errors.participateOnlyParty?.message as
-                      | string
-                      | undefined}
-                  />
-                </div>
-
-                <div>
-                  <input
-                    type="number"
-                    inputMode="numeric"
-                    min={0}
-                    max={10}
-                    disabled={!participateOnlyParty}
-                    {...register("accompanyCountOnlyParty", {
-                      setValueAs: (value) =>
-                        value === "" ? undefined : Number(value),
-                    })}
-                    placeholder="NOMBRE D’ACCOMPAGNANTS"
-                    className="w-full border border-white/30 bg-white px-4 py-3 font-bold text-black outline-none disabled:opacity-50"
-                  />
-                  <FieldError
-                    msg={errors.accompanyCountOnlyParty?.message as
-                      | string
-                      | undefined}
-                  />
-                </div>
-              </div>
-            </div>
-
+          <div className="mt-6 text-white/90 font-barlow">
             <p className="text-lg">
-              Fournir une copie de pièce d’identité et un certificat médical uniquement pour les compétiteurs ou photocopie de la licence 2026 à envoyer à{" "}
+              Fournir une copie de pièce d'identité et un certificat médical uniquement pour les compétiteurs ou photocopie de la licence 2026 à envoyer à{" "}
               <span className="text-lg font-semibold">
                 contact@dentalsurfcontest.com
               </span>
+            </p>
+
+            <p className="font-barlow mt-6 max-w-xl mx-auto text-center text-lg font-bold">
+              La journée sera suivie d'un apéro tapas et de la remise des prix
+              au Boardriders de Capbreton
+              <br />
+              36 Bd du Dr Junqua, 40130 Capbreton
             </p>
           </div>
 
@@ -469,7 +320,6 @@ export default function RegistrationForm() {
               <p className="mt-6 text-white">
                 Merci ! Votre inscription a bien été envoyée.
               </p>
-
               <p className="mt-3 text-sm text-gray-200 max-w-md">
                 Un email de confirmation vient de vous être envoyé.
                 Si vous ne le recevez pas dans les prochaines minutes,
@@ -485,7 +335,7 @@ export default function RegistrationForm() {
 
             <a
               href="mailto:contact@dentalsurfcontest.com"
-              className="mt-6 inline-flex  px-12 py-3  items-center justify-center bg-white hover:bg-yellow active:bg-yellow  font-barlow-condensed text-2xl font-bold leading-none text-black"
+              className="mt-6 inline-flex px-12 py-3 items-center justify-center bg-white hover:bg-yellow active:bg-yellow font-barlow-condensed text-2xl font-bold leading-none text-black"
             >
               CONTACT
             </a>
