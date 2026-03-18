@@ -102,6 +102,7 @@ function rowAdmin(label: string, value: string | number) {
     </tr>
   `;
 }
+
 function buildParticipantHtml(data: {
   nom: string;
   prenom: string;
@@ -110,11 +111,6 @@ function buildParticipantHtml(data: {
   clubMember: boolean;
   competitionLicense: boolean;
   niveau: "debutant" | "intermediaire" | "expert";
-  participateSurfLessons: boolean;
-  participateParty: boolean;
-  accompanyCountParty?: number;
-  participateOnlyParty: boolean;
-  accompanyCountOnlyParty?: number;
 }) {
   return `
   <!doctype html>
@@ -173,14 +169,9 @@ function buildParticipantHtml(data: {
                     ${rowParticipant("Prénom", data.prenom)}
                     ${rowParticipant("Téléphone", data.telephone)}
                     ${rowParticipant("Email", data.email)}
-                    ${rowParticipant("Déjà adhérent d’un club", formatBoolean(data.clubMember))}
+                    ${rowParticipant("Déjà adhérent d'un club", formatBoolean(data.clubMember))}
                     ${rowParticipant("Licence compétition", formatBoolean(data.competitionLicense))}
                     ${rowParticipant("Niveau", formatNiveau(data.niveau))}
-                    ${rowParticipant("Participera aux cours de surf", formatBoolean(data.participateSurfLessons))}
-                    ${rowParticipant("Participera à la soirée", formatBoolean(data.participateParty))}
-                    ${rowParticipant("Accompagnants soirée", data.accompanyCountParty ?? 0)}
-                    ${rowParticipant("Participera uniquement à la soirée", formatBoolean(data.participateOnlyParty))}
-                    ${rowParticipant("Accompagnants soirée seule", data.accompanyCountOnlyParty ?? 0)}
                   </table>
                 </td>
               </tr>
@@ -190,7 +181,7 @@ function buildParticipantHtml(data: {
                   <div style="background:#FFF4C4;border:1px solid #F0D459;border-radius:14px;padding:18px 18px;">
                     <div style="font-size:14px;line-height:1.7;color:#374151;">
                       <strong style="color:#F15759;">Documents à envoyer :</strong><br />
-                      Merci d’envoyer votre copie de pièce d’identité et votre certificat médical à contact@dentalsurfcontest.com.
+                      Merci d'envoyer votre copie de pièce d'identité et votre certificat médical à contact@dentalsurfcontest.com.
                     </div>
                   </div>
                 </td>
@@ -210,7 +201,7 @@ function buildParticipantHtml(data: {
               <tr>
                 <td style="padding:18px 32px 0 32px;" align="center">
                   <p style="margin:0;font-size:13px;line-height:1.7;color:#6b7280;">
-                    Un fichier agenda est joint à cet email pour vous permettre d’ajouter l’événement à votre calendrier.
+                    Un fichier agenda est joint à cet email pour vous permettre d'ajouter l'événement à votre calendrier.
                   </p>
                 </td>
               </tr>
@@ -231,6 +222,7 @@ function buildParticipantHtml(data: {
   </html>
   `;
 }
+
 function buildAdminHtml(data: {
   nom: string;
   prenom: string;
@@ -239,11 +231,6 @@ function buildAdminHtml(data: {
   clubMember: boolean;
   competitionLicense: boolean;
   niveau: "debutant" | "intermediaire" | "expert";
-  participateSurfLessons: boolean;
-  participateParty: boolean;
-  accompanyCountParty?: number;
-  participateOnlyParty: boolean;
-  accompanyCountOnlyParty?: number;
 }) {
   return `
   <!doctype html>
@@ -268,7 +255,7 @@ function buildAdminHtml(data: {
                     Nouvelle inscription - Dental Surf Contest 2026
                   </h1>
                   <p style="margin:16px 0 0 0;font-size:16px;line-height:1.6;color:#4b5563;">
-                    Une nouvelle demande vient d’être enregistrée.
+                    Une nouvelle demande vient d'être enregistrée.
                   </p>
                 </td>
               </tr>
@@ -293,7 +280,7 @@ function buildAdminHtml(data: {
               <tr>
                 <td style="padding:24px 32px 8px 32px;">
                   <h2 style="margin:0 0 12px 0;font-size:18px;font-weight:700;color:#171717;">
-                    Détails de l’inscription
+                    Détails de l'inscription
                   </h2>
 
                   <table role="presentation" width="100%" cellspacing="0" cellpadding="0" style="border-collapse:collapse;border-radius:14px;overflow:hidden;">
@@ -301,14 +288,9 @@ function buildAdminHtml(data: {
                     ${rowAdmin("Prénom", data.prenom)}
                     ${rowAdmin("Téléphone", data.telephone)}
                     ${rowAdmin("Email", data.email)}
-                    ${rowAdmin("Déjà adhérent d’un club", formatBoolean(data.clubMember))}
+                    ${rowAdmin("Déjà adhérent d'un club", formatBoolean(data.clubMember))}
                     ${rowAdmin("Licence compétition", formatBoolean(data.competitionLicense))}
                     ${rowAdmin("Niveau", formatNiveau(data.niveau))}
-                    ${rowAdmin("Participera aux cours de surf", formatBoolean(data.participateSurfLessons))}
-                    ${rowAdmin("Participera à la soirée", formatBoolean(data.participateParty))}
-                    ${rowAdmin("Accompagnants soirée", data.accompanyCountParty ?? 0)}
-                    ${rowAdmin("Participera uniquement à la soirée", formatBoolean(data.participateOnlyParty))}
-                    ${rowAdmin("Accompagnants soirée seule", data.accompanyCountOnlyParty ?? 0)}
                   </table>
                 </td>
               </tr>
@@ -343,7 +325,7 @@ function buildAdminHtml(data: {
 
 export async function POST(req: Request) {
   try {
-    const body = await req.json();  
+    const body = await req.json();
 
     const parsed = registrationSchema.safeParse(body);
 
@@ -360,7 +342,6 @@ export async function POST(req: Request) {
     const from = process.env.REGISTRATION_FROM_EMAIL;
     const notificationEmail = process.env.REGISTRATION_NOTIFICATION_EMAIL;
 
-  
     if (!process.env.RESEND_API_KEY) {
       return NextResponse.json(
         { error: "RESEND_API_KEY manquante" },
@@ -389,8 +370,6 @@ export async function POST(req: Request) {
       html: buildParticipantHtml(data),
     });
 
-  
-
     if (participantMail.error) {
       console.error("Erreur mail participant :", participantMail.error);
       return NextResponse.json(
@@ -405,8 +384,6 @@ export async function POST(req: Request) {
       subject: `Nouvelle inscription - Dental Surf Contest 2026 - ${data.prenom} ${data.nom}`,
       html: buildAdminHtml(data),
     });
-
-   
 
     if (adminMail.error) {
       console.error("Erreur mail admin :", adminMail.error);
@@ -424,7 +401,7 @@ export async function POST(req: Request) {
   } catch (error) {
     console.error("Erreur API /api/register :", error);
     return NextResponse.json(
-      { error: "Erreur serveur lors de l’inscription." },
+      { error: "Erreur serveur lors de l'inscription." },
       { status: 500 }
     );
   }
