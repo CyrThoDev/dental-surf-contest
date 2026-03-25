@@ -32,6 +32,7 @@ export default function RegistrationForm() {
     handleSubmit,
     watch,
     setValue,
+    reset,  
     formState: { errors, isSubmitting, isSubmitSuccessful },
   } = useForm<RegistrationInput>({
     resolver: zodResolver(registrationSchema),
@@ -64,6 +65,7 @@ export default function RegistrationForm() {
       if (!res.ok) {
         throw new Error(result?.error || "Erreur envoi");
       }
+      reset(defaultValues);
     } catch (error) {
       console.error("Erreur soumission formulaire :", error);
       setSubmitError("Une erreur est survenue lors de l'envoi du formulaire.");
