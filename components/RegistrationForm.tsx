@@ -5,6 +5,8 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { registrationSchema, type RegistrationInput } from "@/lib/validation";
 
+const REGISTRATIONS_OPEN = false;
+
 function FieldError({ msg }: { msg?: string }) {
   if (!msg) return null;
   return <p className="mt-1 text-black">{msg}</p>;
@@ -51,6 +53,8 @@ export default function RegistrationForm() {
   }, [clubMember, setValue]);
 
   const onSubmit = async (data: RegistrationInput) => {
+    if (!REGISTRATIONS_OPEN) return;
+
     setSubmitError(null);
 
     try {
@@ -310,10 +314,18 @@ export default function RegistrationForm() {
 
           <div className="mt-12 flex justify-center">
             <button
-              disabled={isSubmitting}
-              className="font-barlow-condensed w-[300px] bg-blue hover:bg-yellow active:bg-yellow px-8 py-3 text-3xl font-extrabold text-black disabled:opacity-60"
+              disabled={isSubmitting || !REGISTRATIONS_OPEN}
+              className={`font-barlow-condensed w-[300px] px-8 py-3 text-3xl font-extrabold text-black disabled:opacity-60 ${
+                REGISTRATIONS_OPEN
+                  ? "bg-blue hover:bg-yellow active:bg-yellow"
+                  : "bg-gray-400 text-black"
+              }`}
             >
-              {isSubmitting ? "ENVOI..." : "VALIDER"}
+              {!REGISTRATIONS_OPEN
+                ? "INSCRIPTIONS FERMÉES"
+                : isSubmitting
+                ? "ENVOI..."
+                : "VALIDER"}
             </button>
           </div>
 
